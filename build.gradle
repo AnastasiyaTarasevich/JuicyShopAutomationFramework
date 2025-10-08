@@ -33,6 +33,7 @@ test {
     def groups = System.getProperty('groups.include') ?: null
 
     useTestNG {
+        suiteName = "JuicyShopAutomation Tests"
         if (groups) {
             includeGroups groups
         }

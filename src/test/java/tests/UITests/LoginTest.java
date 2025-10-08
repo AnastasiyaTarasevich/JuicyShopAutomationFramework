@@ -1,31 +1,28 @@
 package tests.UITests;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+import steps.LoginSteps;
 import tests.BaseTest;
 import utils.TestGroups;
-
-import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.SeverityLevel.CRITICAL;
 
 
 public class LoginTest extends BaseTest {
+    private final SoftAssert softAssert = new SoftAssert();
+    private final LoginSteps loginSteps = new LoginSteps(softAssert);
 
     @Test(groups = {TestGroups.UI, TestGroups.DEBUG})
+    @Feature("Login")
     @Description("This test attempts to log into the website using a login and a password")
     @Severity(CRITICAL)
     public void validUserLoginTest() {
-        $("button[aria-label='Close Welcome Banner']").click();
-        $("#navbarAccount").click();
-        $("button[aria-label='Go to login page']").click();
-        sleep(2000);
-        $("#email").setValue("demo@juice-sh.op");
-        sleep(1000);
-        $("#password").setValue("demo123");
-        sleep(500);
-        $("#loginButton").click();
-        sleep(500);
-
+        loginSteps.closeWelcomeBanner();
+        loginSteps.goToLoginPage();
+        loginSteps.loginAs("demo@juice-sh.op", "demo123");
+        softAssert.assertAll();
     }
 }
