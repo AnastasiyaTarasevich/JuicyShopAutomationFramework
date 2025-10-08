@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.testng:testng:7.10.2'
+    testImplementation 'com.codeborne:selenide:7.11.1'
+    testImplementation 'io.qameta.allure:allure-testng:2.24.0'
+}
+
+test {
+    def groups = System.getProperty('groups.include', 'debug')
+
+    useTestNG {
+        includeGroups groups
+    }
+
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
