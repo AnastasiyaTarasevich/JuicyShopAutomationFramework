@@ -30,18 +30,18 @@ dependencies {
 }
 
 test {
-    def groups = System.getProperty('groups.include', 'debug')
+    def groups = System.getProperty('groups.include') ?: null
 
     useTestNG {
-        includeGroups groups
+        if (groups) {
+            includeGroups groups
+        }
+        systemProperty "testng.listeners", "io.qameta.allure.testng.AllureTestNg"
     }
 
     testLogging {
         events "passed", "skipped", "failed"
     }
 
-    test {
-        jvmArgs = [ "-javaagent:${configurations.agent.singleFile}" ]
-    }
-
+    jvmArgs = [ "-javaagent:${configurations.agent.singleFile}" ]
 }
