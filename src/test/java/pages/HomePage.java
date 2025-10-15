@@ -8,10 +8,12 @@ public enum HomePage implements PageElement {
 
     CLOSE_WELCOME_BANNER("", false),
     ACCOUNT_BUTTON("navbarAccount", true),
-    LOGIN_PAGE_BUTTON("", true);
+    LOGIN_PAGE_BUTTON("", false);
 
     private final String id;
     private final boolean required;
+
+    private final String pageName = "HOME PAGE";
 
     HomePage(String id, boolean required) {
         this.id = id;
@@ -38,6 +40,11 @@ public enum HomePage implements PageElement {
     @Override
     public boolean isRequired() {
         return required;
+    }
+
+    @Override
+    public String getPageName() {
+        return pageName;
     }
 
     public static PageElement[] getRequiredElements() {

@@ -13,6 +13,8 @@ def testngVersion = "7.10.2"
 def selenideVersion = "7.11.1"
 def allureVersion = "2.24.0"
 def aspectJVersion = "1.9.20.1"
+def slf4jVersion = "2.0.9"
+def logbackVersion = "1.4.14"
 
 configurations {
     agent {
@@ -27,6 +29,8 @@ dependencies {
     testImplementation platform("io.qameta.allure:allure-bom:$allureVersion")
     testImplementation "io.qameta.allure:allure-testng"
     agent "org.aspectj:aspectjweaver:$aspectJVersion"
+    testImplementation "org.slf4j:slf4j-api:$slf4jVersion"
+    testRuntimeOnly "ch.qos.logback:logback-classic:$logbackVersion"
 }
 
 test {
