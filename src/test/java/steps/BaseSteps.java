@@ -1,40 +1,50 @@
 package steps;
 
-import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Allure;
+import io.qameta.allure.Step;
 import org.testng.asserts.SoftAssert;
 import pages.PageElement;
-
-import static com.codeborne.selenide.Condition.visible;
+import utils.ElementActions;
 
 public abstract class BaseSteps {
 
     protected SoftAssert softAssert;
+    protected ElementActions elementActions;
 
     public BaseSteps(SoftAssert softAssert) {
         this.softAssert = softAssert;
+        this.elementActions = new ElementActions();
     }
 
-    protected void click(SelenideElement element) {
-        element.shouldBe(visible).click();
+    /**
+     * Universal method for business steps
+     * description — description of the step
+     * pageElement — one of the page element to use pageName
+     * actions — technical actions that performed on this step
+     */
+    protected void performStep(PageElement pageElement, String description, Runnable action) {
+        String stepName = pageElement.getPageName() + " — " + description;
+        Allure.step(stepName, action::run);
     }
 
-    protected void setValue(SelenideElement element, String value) {
-        element.shouldBe(visible).setValue(value);
-    }
+    protected void checkRequiredElementsVisibility(PageElement[] elements) {
+        if (elements.length == 0) return;
+        String pageName = elements[0].getPageName();
 
-    protected boolean isElementDisplayed(SelenideElement element) {
-        return element.isDisplayed();
-    }
-    protected void isElementDisplayed(SelenideElement element, String elementName) {
-        boolean visible = element.isDisplayed();
-        softAssert.assertTrue(visible, "Element should be visible: " + elementName);
-    }
-
-    protected void checkPageVisible(PageElement[] requiredElements) {
-        for (PageElement element : requiredElements) {
-            if (!isElementDisplayed(element.getElement())) {
-                throw new AssertionError("Required element not visible: " + element);
+        Allure.step(pageName + " — Verify required elements are visible", () -> {
+            for (PageElement element : elements) {
+                if (element.isRequired()) {
+                    boolean visible = elementActions.isElementDisplayed(element.getElement());
+                    softAssert.assertTrue(visible,
+                            "Required element not visible: " + element.getElement().name() + " on page " + pageName);
+                }
             }
-        }
+        });
+    }
+
+    @Step("{element.pageName} — Verify visibility of {elementName}")
+    protected void isElementDisplayed(PageElement element, String elementName) {
+        boolean visible = elementActions.isElementDisplayed(element.getElement());
+        softAssert.assertTrue(visible, "Element should be visible: " + elementName);
     }
 }

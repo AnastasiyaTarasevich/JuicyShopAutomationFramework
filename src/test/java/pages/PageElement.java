@@ -7,4 +7,5 @@ public interface PageElement {
     SelenideElement getElement();
 
     boolean isRequired();
+    String getPageName();
 }
