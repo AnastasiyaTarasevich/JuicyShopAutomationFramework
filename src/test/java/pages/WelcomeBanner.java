@@ -2,19 +2,19 @@ package pages;
 
 import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$x;
 
-//TODO add necessary elements
-public enum HomePage implements PageElement {
-
-    ACCOUNT_BUTTON("navbarAccount", true),
-    LOGIN_PAGE_BUTTON("", false);
+public enum WelcomeBanner implements PageElement {
+    OWASP_LINK("", true),
+    JUICY_SHOP_LINK("", true),
+    TIPS_BUTTON("", true),
+    CLOSE_WELCOME_BANNER_BUTTON("", true);
 
     private final String id;
     private final boolean required;
+    public final String pageName = "WELCOME PAGE BANNER";
 
-    private final String pageName = "HOME PAGE";
-
-    HomePage(String id, boolean required) {
+    WelcomeBanner(String id, boolean required) {
         this.id = id;
         this.required = required;
     }
@@ -30,8 +30,14 @@ public enum HomePage implements PageElement {
             return PageElement.super.getElement();
         }
         switch (this) {
-            case LOGIN_PAGE_BUTTON:
-                return $("button[aria-label='Go to login page']");
+            case OWASP_LINK:
+                return $("a[href='https://owasp.org']");
+            case JUICY_SHOP_LINK:
+                return $("a[href='https://owasp-juice.shop']");
+            case TIPS_BUTTON:
+                return $x("//button[.//span[contains(normalize-space(.), 'Help getting started')]]");
+            case CLOSE_WELCOME_BANNER_BUTTON:
+                return $("button[aria-label='Close Welcome Banner']");
             default:
                 throw new IllegalStateException("No locator defined for element: " + this.name());
         }
@@ -45,9 +51,5 @@ public enum HomePage implements PageElement {
     @Override
     public String getPageName() {
         return pageName;
-    }
-
-    public static PageElement[] getRequiredElements() {
-        return values();
     }
 }

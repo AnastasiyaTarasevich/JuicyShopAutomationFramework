@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'checkstyle'
 }
 
 group = 'org.example'
@@ -15,6 +16,7 @@ def allureVersion = "2.24.0"
 def aspectJVersion = "1.9.20.1"
 def slf4jVersion = "2.0.9"
 def logbackVersion = "1.4.14"
+def apacheCommonsVersion = "3.0"
 
 configurations {
     agent {
@@ -31,6 +33,13 @@ dependencies {
     agent "org.aspectj:aspectjweaver:$aspectJVersion"
     testImplementation "org.slf4j:slf4j-api:$slf4jVersion"
     testRuntimeOnly "ch.qos.logback:logback-classic:$logbackVersion"
+    checkstyle "com.puppycrawl.tools:checkstyle:${checkstyle.toolVersion}"
+    testImplementation "org.apache.commons:commons-lang3:$apacheCommonsVersion"
+}
+
+checkstyle {
+    toolVersion = '10.14.0'
+    configFile = file("config/checkstyle/checkstyle.xml")
 }
 
 test {

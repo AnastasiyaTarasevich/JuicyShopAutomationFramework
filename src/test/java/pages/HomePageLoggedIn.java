@@ -3,18 +3,18 @@ package pages;
 import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Selenide.$;
 
-//TODO add necessary elements
-public enum HomePage implements PageElement {
-
+//TODO add elements
+public enum HomePageLoggedIn implements PageElement {
     ACCOUNT_BUTTON("navbarAccount", true),
-    LOGIN_PAGE_BUTTON("", false);
+    LOGOUT_BUTTON("navbarLogoutButton", false),
+    GO_TO_PROFILE_BUTTON("", false)
+    ;
 
+    private final String pageName = "Auth Home Page";
     private final String id;
     private final boolean required;
 
-    private final String pageName = "HOME PAGE";
-
-    HomePage(String id, boolean required) {
+    HomePageLoggedIn(String id, boolean required) {
         this.id = id;
         this.required = required;
     }
@@ -30,8 +30,8 @@ public enum HomePage implements PageElement {
             return PageElement.super.getElement();
         }
         switch (this) {
-            case LOGIN_PAGE_BUTTON:
-                return $("button[aria-label='Go to login page']");
+            case GO_TO_PROFILE_BUTTON:
+                return $("button[aria-label='Go to user profile']");
             default:
                 throw new IllegalStateException("No locator defined for element: " + this.name());
         }
@@ -45,9 +45,5 @@ public enum HomePage implements PageElement {
     @Override
     public String getPageName() {
         return pageName;
-    }
-
-    public static PageElement[] getRequiredElements() {
-        return values();
     }
 }
