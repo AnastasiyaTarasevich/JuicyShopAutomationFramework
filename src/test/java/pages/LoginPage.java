@@ -1,10 +1,6 @@
 package pages;
 
-import com.codeborne.selenide.SelenideElement;
-
-import static com.codeborne.selenide.Selenide.$;
-
-public enum LoginPage implements PageElement{
+public enum LoginPage implements PageElement {
 
     EMAIL("email", true),
     PASSWORD("password", true),
@@ -12,7 +8,7 @@ public enum LoginPage implements PageElement{
 
     private final String id;
     private final boolean required;
-    public  final String pageName = "LOGIN PAGE";
+    public final String pageName = "LOGIN PAGE";
 
     LoginPage(String id, boolean required) {
         this.id = id;
@@ -20,11 +16,8 @@ public enum LoginPage implements PageElement{
     }
 
     @Override
-    public SelenideElement getElement() {
-        if (!id.isEmpty() && $("#" + id).exists()) {
-            return $("#" + id);
-        }
-        throw new IllegalStateException("No locator defined for element: " + this.name());
+    public String getId() {
+        return id;
     }
 
     @Override

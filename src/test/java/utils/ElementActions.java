@@ -1,19 +1,36 @@
 package utils;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-
-import static com.codeborne.selenide.Condition.visible;
+import java.time.Duration;
 
 public class ElementActions {
     public void click(SelenideElement element) {
-        element.shouldBe(visible).click();
+        shouldBeVisible(element).click();
     }
 
     public void setValue(SelenideElement element, String value) {
-        element.shouldBe(visible).setValue(value);
+        shouldBeVisible(element).setValue(value);
     }
 
     public boolean isElementDisplayed(SelenideElement element) {
-        return element.isDisplayed();
+        try {
+            shouldBeVisible(element, 5);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public SelenideElement shouldBeVisible(SelenideElement element) {
+        return element.shouldBe(Condition.visible);
+    }
+
+    public SelenideElement shouldBeVisible(SelenideElement element, int durationOfSeconds) {
+        return element.shouldBe(Condition.visible, Duration.ofSeconds(durationOfSeconds));
+    }
+
+    public SelenideElement doubleClick(SelenideElement element) {
+        return element.doubleClick();
     }
 }

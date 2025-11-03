@@ -1,5 +1,7 @@
 package tests.UITests;
 
+import com.codeborne.selenide.Selenide;
+import config.Config;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -25,13 +27,14 @@ public class LoginTest extends BaseTest {
     @TmsLink("JUICYSHOP-1")
     public void validUserLoginTest() {
 
-        homeSteps.closeWelcomeBanner();
-        homeSteps.verifyHomePageVisible();
-        homeSteps.goToLoginPage();
+        homeSteps.closeWelcomeBanner()
+                .verifyHomePageVisible()
+                .goToLoginPage();
 
-        loginSteps.verifyLoginPageVisible();
-        loginSteps.loginAs("demo@juice-sh.op", "demo123");
-
+        loginSteps.verifyLoginPageVisible()
+                    .loginAs(Config.getUserLogin(), Config.getUserPassword())
+                    .verifyLoginSuccess();
+        Selenide.sleep(2000);
         softAssert.assertAll();
     }
 }
