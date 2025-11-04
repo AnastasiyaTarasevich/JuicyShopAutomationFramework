@@ -3,7 +3,7 @@ name: Lint
 on:
   push:
     branches:
-      - main
+      - '**'
   pull_request:
     branches:
       - main
@@ -32,8 +32,3 @@ jobs:
 
     - name: Run Checkstyle via Gradle
       run: ./gradlew checkstyleTest
-
-    - name: Upload Checkstyle report
-      uses: jwmeligmeyling/checkstyle-github-action@v1
-      with:
-        path: build/reports/checkstyle/*.xml
