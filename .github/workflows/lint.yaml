@@ -1,0 +1,39 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  checks: write
+  contents: write
+
+jobs:
+  run-linters:
+    name: Run Linters
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out Git repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Grant execute permissions for Gradle
+      run: chmod +x gradlew
+
+    - name: Run Checkstyle via Gradle
+      run: ./gradlew checkstyleTest
+
+    - name: Upload Checkstyle report
+      uses: jwmeligmeyling/checkstyle-github-action@v1
+      with:
+        path: build/reports/checkstyle/*.xml
