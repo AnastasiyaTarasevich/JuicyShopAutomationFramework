@@ -25,7 +25,7 @@ public class Config {
     }
 
     public static String getBaseUrl() {
-        return System.getenv().get("base.url");
+        return System.getenv().getOrDefault("BASE_URL", properties.getProperty("base.url"));
     }
 
     public static String getUserLogin() {

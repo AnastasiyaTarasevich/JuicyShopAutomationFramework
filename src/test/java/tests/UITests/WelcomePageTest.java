@@ -3,12 +3,11 @@ package tests.UITests;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import steps.HomeSteps;
-import tests.BaseTest;
+import steps.UISteps.HomeSteps;
 import utils.TestGroups;
 import static io.qameta.allure.SeverityLevel.CRITICAL;
 
-public class WelcomePageTest extends BaseTest {
+public class WelcomePageTest extends BaseUITest {
 
     private final SoftAssert softAssert = new SoftAssert();
     private final HomeSteps homeSteps = new HomeSteps(softAssert);

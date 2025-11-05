@@ -1,4 +1,4 @@
-package steps;
+package steps.UISteps;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
@@ -6,6 +6,7 @@ import org.testng.asserts.SoftAssert;
 import pages.HomePage;
 import pages.TipsBanner;
 import pages.WelcomeBanner;
+import steps.BaseSteps;
 import static com.codeborne.selenide.Selenide.$;
 
 public class HomeSteps extends BaseSteps {
