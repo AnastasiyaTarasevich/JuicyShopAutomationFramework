@@ -1,8 +1,8 @@
-package utils;
+package actions;
 
+import java.time.Duration;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import java.time.Duration;
 
 public class ElementActions {
     public void click(SelenideElement element) {

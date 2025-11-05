@@ -1,11 +1,11 @@
-package steps;
+package steps.UISteps;
 
 import com.codeborne.selenide.Condition;
 import config.Config;
 import org.testng.asserts.SoftAssert;
-import pages.HomePage;
 import pages.HomePageLoggedIn;
 import pages.LoginPage;
+import steps.BaseSteps;
 
 public class LoginSteps extends BaseSteps {
     public LoginSteps(SoftAssert softAssert) {

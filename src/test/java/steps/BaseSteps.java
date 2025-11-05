@@ -1,5 +1,6 @@
 package steps;
 
+import actions.ElementActions;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Allure;
@@ -9,8 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.asserts.SoftAssert;
 import pages.PageElement;
-import utils.ElementActions;
 
+//TODO move non steps methods to BrowserActions
 public abstract class BaseSteps {
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -31,6 +32,10 @@ public abstract class BaseSteps {
     protected void performStep(PageElement pageElement, String description, Runnable action) {
         String stepName = pageElement.getPageName() + " — " + description;
         Allure.step(stepName, action::run);
+    }
+
+    protected void performStep(String description, Runnable action) {
+        Allure.step(description, action::run);
     }
 
     protected void checkRequiredElementsVisibility(PageElement[] elements) {

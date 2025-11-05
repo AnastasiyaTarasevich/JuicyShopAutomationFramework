@@ -1,6 +1,8 @@
-package tests;
+package tests.UITests;
 
 import com.codeborne.selenide.Configuration;
+import config.Config;
+import io.qameta.allure.Epic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterMethod;
@@ -8,14 +10,15 @@ import org.testng.annotations.BeforeMethod;
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static com.codeborne.selenide.Selenide.open;
 
-public abstract class BaseTest {
+@Epic("UI Tests")
+public abstract class BaseUITest {
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() throws Exception {
         log.info("Setting up selenide...");
         Configuration.browser = "chrome";
-        Configuration.baseUrl = "http://localhost:3000";
+        Configuration.baseUrl = Config.getBaseUrl();
         log.info("Open start page: {}", Configuration.baseUrl);
         open("/");
     }

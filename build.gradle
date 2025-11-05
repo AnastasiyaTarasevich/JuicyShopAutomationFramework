@@ -17,6 +17,9 @@ def aspectJVersion = "1.9.20.1"
 def slf4jVersion = "2.0.9"
 def logbackVersion = "1.4.14"
 def apacheCommonsVersion = "3.0"
+def restAssuredVersion = "5.4.0"
+def lombokVersion = "1.18.32"
+def jacksonVersion = "2.20.1"
 
 configurations {
     agent {
@@ -35,6 +38,11 @@ dependencies {
     testRuntimeOnly "ch.qos.logback:logback-classic:$logbackVersion"
     checkstyle "com.puppycrawl.tools:checkstyle:${checkstyle.toolVersion}"
     testImplementation "org.apache.commons:commons-lang3:$apacheCommonsVersion"
+    testImplementation "io.rest-assured:rest-assured:$restAssuredVersion"
+    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    testImplementation "io.qameta.allure:allure-rest-assured"
+    testImplementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
 }
 
 checkstyle {

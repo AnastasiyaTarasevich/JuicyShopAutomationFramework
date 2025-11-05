@@ -15,7 +15,20 @@
         <module name="EmptyBlock"/>
 
         <!-- Проверка порядка импортов -->
-        <module name="ImportOrder"/>
+        <module name="ImportOrder">
+            <!-- Группы: стандартные пакеты сначала, все остальные вместе -->
+            <property name="groups" value="java, javax, *"/>
+
+            <!-- Импорты внутри группы упорядочиваются по алфавиту -->
+            <property name="ordered" value="true"/>
+
+            <!-- Не добавляем пустые строки между группами -->
+            <property name="separated" value="false"/>
+
+            <!-- Отправляем все статические импорты в конец -->
+            <property name="option" value="bottom"/>
+        </module>
+
 
         <!-- Проверка отсутствия пустых catch блоков -->
         <module name="AvoidInlineConditionals"/>
