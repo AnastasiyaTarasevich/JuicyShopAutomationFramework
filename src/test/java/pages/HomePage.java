@@ -1,13 +1,19 @@
 package pages;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 //TODO add necessary elements
 public enum HomePage implements PageElement {
 
     ACCOUNT_BUTTON("navbarAccount", true),
-    LOGIN_PAGE_BUTTON("", false);
+    LOGIN_PAGE_BUTTON("", false),
+    SEARCH_BUTTON("searchQuery", true),
+    SEARCH_INPUT("mat-input-1", false),
+    PRODUCT_CARDS("", false),
+    ;
 
     private final String id;
     private final boolean required;
@@ -34,6 +40,15 @@ public enum HomePage implements PageElement {
                 return $("button[aria-label='Go to login page']");
             default:
                 throw new IllegalStateException("No locator defined for element: " + this.name());
+        }
+    }
+
+    public ElementsCollection getElements() {
+        switch (this) {
+            case PRODUCT_CARDS:
+                return $$("div.mdc-card");
+            default:
+                throw new IllegalStateException("No collection defined for element: " + this.name());
         }
     }
 

@@ -1,4 +1,4 @@
-package dtos;
+package dtos.login;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

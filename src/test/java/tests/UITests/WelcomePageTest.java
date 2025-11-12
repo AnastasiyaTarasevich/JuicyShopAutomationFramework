@@ -3,14 +3,15 @@ package tests.UITests;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import steps.UISteps.HomeSteps;
+import steps.UISteps.HomeUISteps;
+import tests.base.BaseUITest;
 import utils.TestGroups;
 import static io.qameta.allure.SeverityLevel.CRITICAL;
 
 public class WelcomePageTest extends BaseUITest {
 
     private final SoftAssert softAssert = new SoftAssert();
-    private final HomeSteps homeSteps = new HomeSteps(softAssert);
+    private final HomeUISteps homeSteps = new HomeUISteps(softAssert);
 
     @Test(groups = {TestGroups.UI})
     @Feature("Welcome Page")
@@ -33,4 +34,20 @@ public class WelcomePageTest extends BaseUITest {
         softAssert.assertAll();
 
     }
+
+    @Test(groups = {TestGroups.UI})
+    @Feature("Search on Welcome Page")
+    @Description("User can search products without log in")
+    @Severity(CRITICAL)
+    public void searchWithoutLogIn() {
+        String searchQuery = "apple";
+        homeSteps
+                .closeWelcomeBanner()
+                .clickOnSearchButton()
+                .searchText(searchQuery)
+                .verifySearchResults(searchQuery);
+
+        softAssert.assertAll();
+    }
+
 }

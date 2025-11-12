@@ -1,23 +1,22 @@
 package steps.UISteps;
 
 import com.codeborne.selenide.Condition;
-import config.Config;
 import org.testng.asserts.SoftAssert;
 import pages.HomePageLoggedIn;
 import pages.LoginPage;
-import steps.BaseSteps;
+import steps.base.BaseUISteps;
 
-public class LoginSteps extends BaseSteps {
-    public LoginSteps(SoftAssert softAssert) {
+public class LoginUISteps extends BaseUISteps {
+    public LoginUISteps(SoftAssert softAssert) {
         super(softAssert);
     }
 
-    public LoginSteps verifyLoginPageVisible() {
+    public LoginUISteps verifyLoginPageVisible() {
         checkRequiredElementsVisibility(LoginPage.getRequiredElements());
         return this;
     }
 
-    public LoginSteps loginAs(String email, String password) {
+    public LoginUISteps loginAs(String email, String password) {
         performStep(LoginPage.EMAIL, "Log in as " + email, () -> {
             elementActions.setValue(LoginPage.EMAIL.getElement(), email);
             elementActions.setValue(LoginPage.PASSWORD.getElement(), password);
@@ -26,14 +25,14 @@ public class LoginSteps extends BaseSteps {
         return this;
     }
 
-    public LoginSteps verifyLoginSuccess() {
+    public LoginUISteps verifyLoginSuccess(String expectedEmail) {
         performStep(HomePageLoggedIn.ACCOUNT_BUTTON, "Verify login success", () -> {
             elementActions.click(HomePageLoggedIn.ACCOUNT_BUTTON.getElement());
             elementActions.shouldBeVisible(HomePageLoggedIn.LOGOUT_BUTTON.getElement());
             elementActions.shouldBeVisible(HomePageLoggedIn.GO_TO_PROFILE_BUTTON
                     .getElement()
                     .$("span")
-                    .shouldHave(Condition.text(Config.getUserLogin())));
+                    .shouldHave(Condition.text(expectedEmail)));
         });
         return this;
     }

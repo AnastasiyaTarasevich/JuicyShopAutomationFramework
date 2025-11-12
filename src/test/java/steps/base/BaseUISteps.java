@@ -1,4 +1,4 @@
-package steps;
+package steps.base;
 
 import actions.ElementActions;
 import com.codeborne.selenide.Selenide;
@@ -12,13 +12,13 @@ import org.testng.asserts.SoftAssert;
 import pages.PageElement;
 
 //TODO move non steps methods to BrowserActions
-public abstract class BaseSteps {
+public abstract class BaseUISteps {
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
     protected SoftAssert softAssert;
     protected ElementActions elementActions;
 
-    public BaseSteps(SoftAssert softAssert) {
+    public BaseUISteps(SoftAssert softAssert) {
         this.softAssert = softAssert;
         this.elementActions = new ElementActions();
     }
@@ -32,10 +32,6 @@ public abstract class BaseSteps {
     protected void performStep(PageElement pageElement, String description, Runnable action) {
         String stepName = pageElement.getPageName() + " — " + description;
         Allure.step(stepName, action::run);
-    }
-
-    protected void performStep(String description, Runnable action) {
-        Allure.step(description, action::run);
     }
 
     protected void checkRequiredElementsVisibility(PageElement[] elements) {
