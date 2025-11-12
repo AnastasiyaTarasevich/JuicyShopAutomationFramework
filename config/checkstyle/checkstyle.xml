@@ -20,7 +20,7 @@
             <property name="groups" value="java, javax, *"/>
 
             <!-- Импорты внутри группы упорядочиваются по алфавиту -->
-            <property name="ordered" value="true"/>
+            <property name="ordered" value="false"/>
 
             <!-- Не добавляем пустые строки между группами -->
             <property name="separated" value="false"/>
