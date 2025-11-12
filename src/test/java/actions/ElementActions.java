@@ -3,6 +3,7 @@ package actions;
 import java.time.Duration;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.Keys;
 
 public class ElementActions {
     public void click(SelenideElement element) {
@@ -11,6 +12,14 @@ public class ElementActions {
 
     public void setValue(SelenideElement element, String value) {
         shouldBeVisible(element).setValue(value);
+    }
+
+    public void sendKeys(SelenideElement element, String value) {
+        shouldBeVisible(element).sendKeys(value);
+    }
+
+    public void sendKeys(SelenideElement element, Keys key) {
+        shouldBeVisible(element).sendKeys(key);
     }
 
     public boolean isElementDisplayed(SelenideElement element) {
