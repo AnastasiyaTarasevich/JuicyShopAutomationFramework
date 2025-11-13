@@ -13,7 +13,10 @@ public enum HomePage implements PageElement {
     SEARCH_BUTTON("searchQuery", true),
     SEARCH_INPUT("mat-input-1", false),
     PRODUCT_CARDS("", false),
-    ;
+    LANGUAGE_BUTTON("navbarLanguageButton", true),
+    LANGUAGE_RADIO_BUTTONS("", false),
+    CLOSE_COOKIES_BUTTON("", false),
+    PRODUCTS_TITLE("", false);
 
     private final String id;
     private final boolean required;
@@ -38,6 +41,10 @@ public enum HomePage implements PageElement {
         switch (this) {
             case LOGIN_PAGE_BUTTON:
                 return $("button[aria-label='Go to login page']");
+            case CLOSE_COOKIES_BUTTON:
+                return $("a[aria-label='dismiss cookie message']");
+            case PRODUCTS_TITLE:
+                return $("div.heading");
             default:
                 throw new IllegalStateException("No locator defined for element: " + this.name());
         }
@@ -47,6 +54,8 @@ public enum HomePage implements PageElement {
         switch (this) {
             case PRODUCT_CARDS:
                 return $$("div.mdc-card");
+            case LANGUAGE_RADIO_BUTTONS:
+                return $$("input[type='radio']");
             default:
                 throw new IllegalStateException("No collection defined for element: " + this.name());
         }

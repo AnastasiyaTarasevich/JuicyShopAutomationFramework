@@ -24,4 +24,7 @@ public class RandomDataGenerator {
         return ThreadLocalRandom.current().nextInt(SecurityQuestionEnum.values().length);
     }
 
+    public static Language randomLanguage() {
+        return Language.values()[ThreadLocalRandom.current().nextInt(Language.values().length)];
+    }
 }

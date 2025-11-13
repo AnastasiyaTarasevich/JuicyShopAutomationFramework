@@ -7,6 +7,7 @@ import dtos.registration.SecurityQuestionEnum;
 import org.testng.asserts.SoftAssert;
 import steps.base.BaseAPISteps;
 import utils.RandomDataGenerator;
+import utils.StatusCode;
 
 public class RegisterApiSteps extends BaseAPISteps {
     private RegisterResponseDTO response;
@@ -14,8 +15,6 @@ public class RegisterApiSteps extends BaseAPISteps {
     public RegisterApiSteps(SoftAssert softAssert) {
         super(softAssert);
     }
-
-    //TODO CREATE ENUM FOR STATUS CODES
 
     public RegisterRequestDTO createTestUser() {
         String email = RandomDataGenerator.randomEmail();
@@ -34,7 +33,7 @@ public class RegisterApiSteps extends BaseAPISteps {
             response = apiClient.post(ApiEndpoints.REGISTER, request)
                     .then()
                     .log().ifError()
-                    .statusCode(201)
+                    .statusCode(StatusCode.CREATED.getStatusCode())
                     .extract()
                     .as(RegisterResponseDTO.class);
         });

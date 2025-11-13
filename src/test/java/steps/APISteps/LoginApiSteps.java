@@ -5,6 +5,7 @@ import dtos.login.LoginRequestDTO;
 import dtos.login.LoginResponseDTO;
 import org.testng.asserts.SoftAssert;
 import steps.base.BaseAPISteps;
+import utils.StatusCode;
 
 public class LoginApiSteps extends BaseAPISteps {
     private LoginResponseDTO response = new LoginResponseDTO();
@@ -19,7 +20,7 @@ public class LoginApiSteps extends BaseAPISteps {
             LoginRequestDTO request = new LoginRequestDTO(email, password);
             response = apiClient.post(ApiEndpoints.LOGIN, request)
                     .then()
-                    .statusCode(200)
+                    .statusCode(StatusCode.OK.getStatusCode())
                     .extract()
                     .as(LoginResponseDTO.class);
         });
