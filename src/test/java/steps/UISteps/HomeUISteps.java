@@ -2,9 +2,12 @@ package steps.UISteps;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
+import config.Translations;
 import org.openqa.selenium.Keys;
 import org.testng.asserts.SoftAssert;
+import utils.Language;
 import pages.HomePage;
 import pages.TipsBanner;
 import pages.WelcomeBanner;
@@ -27,7 +30,7 @@ public class HomeUISteps extends BaseUISteps {
     public HomeUISteps gotoOWASPLink() {
         performStep(WelcomeBanner.OWASP_LINK, "Navigate to OWASP Link", () -> {
             elementActions.click(WelcomeBanner.OWASP_LINK.getElement());
-            switchSeleniumContextToNewTab();
+            browserActions.switchSeleniumContextToNewTab();
 
         });
         return this;
@@ -38,9 +41,9 @@ public class HomeUISteps extends BaseUISteps {
             String originalWindow = WebDriverRunner.getWebDriver().getWindowHandle();
             gotoOWASPLink();
             elementActions.shouldBeVisible($("body"));
-            softAssert.assertTrue(currentUrl().contains("owasp"), "User did not navigate to OWASP page");
-            closeCurrentTab();
-            switchToWindow(originalWindow);
+            softAssert.assertTrue(browserActions.currentUrl().contains("owasp"), "User did not navigate to OWASP page");
+            browserActions.closeCurrentTab();
+            browserActions.switchToWindow(originalWindow);
         });
         return this;
     }
@@ -48,6 +51,13 @@ public class HomeUISteps extends BaseUISteps {
     public HomeUISteps closeWelcomeBanner() {
         performStep(WelcomeBanner.CLOSE_WELCOME_BANNER_BUTTON, "Close Welcome Banner", () -> {
             elementActions.click(WelcomeBanner.CLOSE_WELCOME_BANNER_BUTTON.getElement());
+        });
+        return this;
+    }
+
+    public HomeUISteps closeCookiesBanner() {
+        performStep(HomePage.CLOSE_COOKIES_BUTTON, "Close cookies banner", () -> {
+            elementActions.click(HomePage.CLOSE_COOKIES_BUTTON.getElement());
         });
         return this;
     }
@@ -63,7 +73,7 @@ public class HomeUISteps extends BaseUISteps {
     public HomeUISteps goToJuicyLink() {
         performStep(WelcomeBanner.JUICY_SHOP_LINK, "Navigate to Juicy Shop", () -> {
             elementActions.click(WelcomeBanner.JUICY_SHOP_LINK.getElement());
-            switchSeleniumContextToNewTab();
+            browserActions.switchSeleniumContextToNewTab();
         });
         return this;
     }
@@ -73,9 +83,10 @@ public class HomeUISteps extends BaseUISteps {
                     String originalWindow = WebDriverRunner.getWebDriver().getWindowHandle();
                     goToJuicyLink();
                     elementActions.shouldBeVisible($("body"));
-                    softAssert.assertTrue(currentUrl().contains("juice"), "User did not navigate to Juicy Shop page");
-                    closeCurrentTab();
-                    switchToWindow(originalWindow);
+                    softAssert.assertTrue(browserActions.currentUrl().contains("juice"),
+                            "User did not navigate to Juicy Shop page");
+                    browserActions.closeCurrentTab();
+                    browserActions.switchToWindow(originalWindow);
                 }
 
         );
@@ -129,6 +140,39 @@ public class HomeUISteps extends BaseUISteps {
             ElementsCollection cards = HomePage.PRODUCT_CARDS.getElements();
             cards.shouldHave(sizeGreaterThan(0));
             cards.forEach(card -> card.shouldHave(text(searchQuery)));
+        });
+        return this;
+    }
+
+    public HomeUISteps clickOnSwitchLanguageButton() {
+        performStep(HomePage.LANGUAGE_BUTTON, "Click on switch language button", () -> {
+            elementActions.click(HomePage.LANGUAGE_BUTTON.getElement());
+        });
+        return this;
+    }
+
+    public HomeUISteps clickOnLanguageRadioButton(String language) {
+        performStep(HomePage.LANGUAGE_BUTTON, "Click on radio button", () -> {
+            SelenideElement element = elementActions
+                    .shouldHaveAriaLabel(HomePage.LANGUAGE_RADIO_BUTTONS.getElements(), language);
+            element.click();
+        });
+        return this;
+    }
+
+    public HomeUISteps refreshHomePage() {
+        performStep(HomePage.SEARCH_INPUT, "Refresh home page", () -> {
+            browserActions.refreshPage();
+        });
+        return this;
+    }
+
+    public HomeUISteps verifyLanguageHasChanged(Language language) {
+        performStep(HomePage.PRODUCTS_TITLE, "Verify language has changed", () -> {
+            elementActions.shouldHaveText(HomePage.PRODUCTS_TITLE.getElement(), Translations.getProductTitle(language));
+            elementActions.shouldHaveText(HomePage.ACCOUNT_BUTTON.getElement(),
+                    Translations.getAccountButtonTitle(language));
+            elementActions.shouldHaveText(HomePage.LANGUAGE_BUTTON.getElement(), language.code);
         });
         return this;
     }

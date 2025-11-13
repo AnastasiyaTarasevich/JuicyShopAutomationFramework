@@ -1,10 +1,16 @@
 package tests.UITests;
 
-import io.qameta.allure.*;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.TmsLink;
+import io.qameta.allure.TmsLinks;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import steps.UISteps.HomeUISteps;
 import tests.base.BaseUITest;
+import utils.Language;
+import utils.RandomDataGenerator;
 import utils.TestGroups;
 import static io.qameta.allure.SeverityLevel.CRITICAL;
 
@@ -13,7 +19,7 @@ public class WelcomePageTest extends BaseUITest {
     private final SoftAssert softAssert = new SoftAssert();
     private final HomeUISteps homeSteps = new HomeUISteps(softAssert);
 
-    @Test(groups = {TestGroups.UI})
+    @Test(groups = {TestGroups.UI, TestGroups.DEBUG})
     @Feature("Welcome Page")
     @Description("User can interact with banner elements and close it")
     @Severity(CRITICAL)
@@ -31,8 +37,6 @@ public class WelcomePageTest extends BaseUITest {
                 .closeTipsBanner()
                 .verifyHomePageVisible();
 
-        softAssert.assertAll();
-
     }
 
     @Test(groups = {TestGroups.UI})
@@ -47,7 +51,22 @@ public class WelcomePageTest extends BaseUITest {
                 .searchText(searchQuery)
                 .verifySearchResults(searchQuery);
 
-        softAssert.assertAll();
+    }
+
+    @Test(groups = {TestGroups.UI, TestGroups.DEBUG})
+    @Feature("Switch language")
+    @Description("User can switch the language")
+    @Severity(CRITICAL)
+    public void switchLanguage() {
+        Language language = RandomDataGenerator.randomLanguage();
+        homeSteps
+                .closeWelcomeBanner()
+                .closeCookiesBanner()
+                .clickOnSwitchLanguageButton()
+                .clickOnLanguageRadioButton(language.name)
+                .refreshHomePage()
+                .verifyLanguageHasChanged(language);
+
     }
 
 }

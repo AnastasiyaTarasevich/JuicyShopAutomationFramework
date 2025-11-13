@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.asserts.SoftAssert;
 
-public class BaseAPISteps {
+public abstract class BaseAPISteps {
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
     protected SoftAssert softAssert;
