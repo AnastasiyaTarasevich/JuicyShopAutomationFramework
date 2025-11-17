@@ -19,7 +19,7 @@ public class WelcomePageTest extends BaseUITest {
     private final SoftAssert softAssert = new SoftAssert();
     private final HomeUISteps homeSteps = new HomeUISteps(softAssert);
 
-    @Test(groups = {TestGroups.UI, TestGroups.DEBUG})
+    @Test(groups = {TestGroups.UI})
     @Feature("Welcome Page")
     @Description("User can interact with banner elements and close it")
     @Severity(CRITICAL)
@@ -53,7 +53,7 @@ public class WelcomePageTest extends BaseUITest {
 
     }
 
-    @Test(groups = {TestGroups.UI, TestGroups.DEBUG})
+    @Test(groups = {TestGroups.UI})
     @Feature("Switch language")
     @Description("User can switch the language")
     @Severity(CRITICAL)

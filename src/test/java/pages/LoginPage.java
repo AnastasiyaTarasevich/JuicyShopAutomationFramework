@@ -4,7 +4,9 @@ public enum LoginPage implements PageElement {
 
     EMAIL("email", true),
     PASSWORD("password", true),
-    LOGIN_BUTTON("loginButton", false);
+    LOGIN_BUTTON("loginButton", false),
+    REGISTER_LINK("newCustomerLink", true),
+    ;
 
     private final String id;
     private final boolean required;
