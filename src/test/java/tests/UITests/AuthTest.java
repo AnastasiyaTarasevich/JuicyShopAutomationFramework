@@ -40,7 +40,7 @@ public class AuthTest extends BaseUITest {
                 .verifyLoginPageVisible()
                 .loginAs(createdUser.getEmail(), createdUser.getPassword())
                 .verifyLoginSuccess(createdUser.getEmail());
-
+        softAssert.assertAll();
     }
 
     @Test(groups = {TestGroups.UI})
@@ -58,5 +58,6 @@ public class AuthTest extends BaseUITest {
         loginSteps.verifyLoginPageVisible()
                 .loginAs(createdUser.getEmail(), createdUser.getPassword())
                 .verifyLoginSuccess(createdUser.getEmail());
+        softAssert.assertAll();
     }
 }

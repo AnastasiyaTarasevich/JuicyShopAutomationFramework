@@ -18,6 +18,30 @@ public class ApiClient {
                 .when()
                 .post(path)
                 .then()
+                .log().ifError()
+                .extract().response();
+    }
+
+    public Response get(String path) {
+        return given()
+                .filter(new AllureRestAssured())
+                .baseUri(RestAssured.baseURI)
+                .when()
+                .get(path)
+                .then()
+                .log().ifError()
+                .extract().response();
+    }
+
+    public Response get(String path, String queryParam) {
+        return given()
+                .filter(new AllureRestAssured())
+                .baseUri(RestAssured.baseURI)
+                .queryParam("q", queryParam)
+                .when()
+                .get(path)
+                .then()
+                .log().ifError()
                 .extract().response();
     }
 
