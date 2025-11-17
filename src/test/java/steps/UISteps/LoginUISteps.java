@@ -36,4 +36,11 @@ public class LoginUISteps extends BaseUISteps {
         });
         return this;
     }
+
+    public LoginUISteps clickOnRegisterLink() {
+        performStep(LoginPage.REGISTER_LINK, "Click on Register link", () -> {
+            elementActions.click(LoginPage.REGISTER_LINK.getElement());
+        });
+        return this;
+    }
 }

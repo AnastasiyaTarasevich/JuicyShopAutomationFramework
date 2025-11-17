@@ -21,7 +21,7 @@ public class RandomDataGenerator {
     }
 
     public static int randomQuestionId() {
-        return ThreadLocalRandom.current().nextInt(SecurityQuestionEnum.values().length);
+        return ThreadLocalRandom.current().nextInt(1, SecurityQuestionEnum.values().length);
     }
 
     public static Language randomLanguage() {

@@ -9,15 +9,39 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import steps.UISteps.HomeUISteps;
 import steps.UISteps.LoginUISteps;
+import steps.UISteps.RegisterUISteps;
 import tests.base.BaseUITest;
 import utils.TestGroups;
 import static io.qameta.allure.SeverityLevel.CRITICAL;
 
-
-public class LoginTest extends BaseUITest {
+public class AuthTest extends BaseUITest {
     private final SoftAssert softAssert = new SoftAssert();
     private final HomeUISteps homeSteps = new HomeUISteps(softAssert);
     private final LoginUISteps loginSteps = new LoginUISteps(softAssert);
+    private final RegisterUISteps registerUISteps = new RegisterUISteps(softAssert);
+
+    @Test(groups = {TestGroups.UI})
+    @Feature("Registration")
+    @Description("Native registration")
+    @Severity(CRITICAL)
+    public void registration() {
+        homeSteps.closeWelcomeBanner()
+                .verifyHomePageVisible()
+                .goToLoginPage();
+        loginSteps
+                .verifyLoginPageVisible()
+                .clickOnRegisterLink();
+        createdUser = registerApiSteps.createTestUser();
+        registerUISteps.verifyRegisterPageVisible()
+                .registerAs(createdUser.getEmail(), createdUser.getPassword(),
+                        createdUser.getPasswordRepeat(), createdUser.getSecurityQuestion(),
+                        createdUser.getSecurityAnswer());
+        loginSteps
+                .verifyLoginPageVisible()
+                .loginAs(createdUser.getEmail(), createdUser.getPassword())
+                .verifyLoginSuccess(createdUser.getEmail());
+
+    }
 
     @Test(groups = {TestGroups.UI})
     @Feature("Login")
@@ -34,6 +58,5 @@ public class LoginTest extends BaseUITest {
         loginSteps.verifyLoginPageVisible()
                 .loginAs(createdUser.getEmail(), createdUser.getPassword())
                 .verifyLoginSuccess(createdUser.getEmail());
-        softAssert.assertAll();
     }
 }

@@ -6,13 +6,25 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebElementCondition;
+import com.codeborne.selenide.ex.UIAssertionError;
+import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.Keys;
-import static com.codeborne.selenide.Condition.exist;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 
 public class ElementActions {
     public void click(SelenideElement element) {
         shouldBeVisible(element).click();
+    }
+
+    public void click(SelenideElement element, int timeoutSeconds) {
+        try {
+            element.click();
+        } catch (ElementNotInteractableException | UIAssertionError e) {
+            Selenide.executeJavaScript("arguments[0].scrollIntoView(true);", element);
+            shouldBeEnabled(element, timeoutSeconds);
+            shouldBeVisible(element, timeoutSeconds)
+                    .click();
+        }
     }
 
     public void setValue(SelenideElement element, String value) {
@@ -49,8 +61,9 @@ public class ElementActions {
                 SelenideElement container = element
                         .$$x("./ancestor::mat-radio-button | ./ancestor::label").first();
                 Selenide.executeJavaScript("arguments[0].scrollIntoView(true);", container);
-                return container;
+
             }
+            return shouldExist(element, timeout);
         }
         return element;
 
@@ -66,6 +79,10 @@ public class ElementActions {
 
     public SelenideElement shouldExist(SelenideElement element, int durationOfSeconds) {
         return element.should(exist, Duration.ofSeconds(durationOfSeconds));
+    }
+
+    public SelenideElement shouldBeEnabled(SelenideElement element, int durationOfSeconds) {
+        return element.should(enabled, Duration.ofSeconds(durationOfSeconds));
     }
 
     public SelenideElement doubleClick(SelenideElement element) {
