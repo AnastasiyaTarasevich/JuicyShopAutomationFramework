@@ -41,7 +41,6 @@ public abstract class BaseUITest {
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
-        softAssert.assertAll();
         log.info("Tearing down selenide...");
         closeWebDriver();
     }

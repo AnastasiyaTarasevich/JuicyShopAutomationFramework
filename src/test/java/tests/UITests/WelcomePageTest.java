@@ -36,6 +36,7 @@ public class WelcomePageTest extends BaseUITest {
                 .verifyTipsChangesOnClick()
                 .closeTipsBanner()
                 .verifyHomePageVisible();
+        softAssert.assertAll();
 
     }
 
@@ -50,7 +51,7 @@ public class WelcomePageTest extends BaseUITest {
                 .clickOnSearchButton()
                 .searchText(searchQuery)
                 .verifySearchResults(searchQuery);
-
+        softAssert.assertAll();
     }
 
     @Test(groups = {TestGroups.UI})
@@ -66,7 +67,7 @@ public class WelcomePageTest extends BaseUITest {
                 .clickOnLanguageRadioButton(language.name)
                 .refreshHomePage()
                 .verifyLanguageHasChanged(language);
-
+        softAssert.assertAll();
     }
 
 }

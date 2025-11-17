@@ -11,6 +11,5 @@ public class LoginResponseDTO {
         private String token;
         private int bid;
         private String umail;
-
     }
 }

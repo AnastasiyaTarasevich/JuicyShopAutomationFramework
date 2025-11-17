@@ -30,4 +30,5 @@ public class BaseAPITest {
         createdUser = registerApiSteps.createTestUser();
         registeredUser = registerApiSteps.registerViaApi(createdUser);
     }
+
 }
