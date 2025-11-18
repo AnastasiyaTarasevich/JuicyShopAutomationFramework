@@ -2,12 +2,11 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                git url: 'https://github.com/AnastasiyaTarasevich/JuicyShopAutomationFramework.git', branch: 'main'
-            }
-        }
-
+       stage('Checkout') {
+           steps {
+               checkout scm
+           }
+       }
         stage('Build & Test') {
             steps {
                 sh 'chmod +x gradlew'
