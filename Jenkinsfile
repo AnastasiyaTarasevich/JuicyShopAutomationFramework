@@ -9,8 +9,12 @@ pipeline {
        }
         stage('Build & Test') {
             steps {
-                sh 'chmod +x gradlew'
-                sh './gradlew clean test -Dgroups=ui,api'
+                dir("${env.WORKSPACE}") {
+                    sh 'ls -la'
+                    sh 'chmod +x gradlew'
+                    sh './gradlew clean test -Dgroups=ui,api'
+                }
+
             }
         }
 
@@ -22,17 +26,17 @@ pipeline {
 
     }
      post {
-                    always {
+           always {
 
-                        echo 'Pipeline finished.'
-                    }
-                    success {
+              echo 'Pipeline finished.'
+           }
+           success {
 
-                        echo 'Tests passed successfully!'
-                    }
-                    failure {
+              echo 'Tests passed successfully!'
+           }
+           failure {
 
-                        echo 'Tests failed. Check logs for details.'
-                    }
-                }
+               echo 'Tests failed. Check logs for details.'
+               }
+     }
 }
