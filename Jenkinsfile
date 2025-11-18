@@ -10,7 +10,7 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                sh 'mvn clean test -Dgroups=ui,api'
+                sh './gradlew clean test -Dgroups=ui,api'
             }
         }
 
@@ -19,5 +19,19 @@ pipeline {
                 allure results: [[path: "target/allure-results"]]
             }
         }
+        post {
+                always {
+
+                    echo 'Pipeline finished.'
+                }
+                success {
+
+                    echo 'Tests passed successfully!'
+                }
+                failure {
+
+                    echo 'Tests failed. Check logs for details.'
+                }
+            }
     }
 }
