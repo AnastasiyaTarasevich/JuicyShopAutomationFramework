@@ -13,14 +13,14 @@ public class Config {
 
     static {
         try (InputStream input = Config.class.getClassLoader().getResourceAsStream("config.properties")) {
-            if (input == null) {
-                log.error("Config file not found in resources!");
-                throw new RuntimeException("Config file 'config.properties' not found in resources folder");
+            if (input != null) {
+                properties.load(input);
+                log.info("load properties success");
+            } else {
+                log.warn("Config file not found, will use environment variables");
             }
-            properties.load(input);
         } catch (IOException e) {
-            log.error("Load config properties error", e);
-            throw new RuntimeException(e);
+            log.error("load properties failed, will use environment variables", e);
         }
     }
 
