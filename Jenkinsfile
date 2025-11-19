@@ -12,20 +12,6 @@ pipeline {
                checkout scm
            }
        }
-
-       stage('Check Juice Shop')
-       {
-            steps {
-            def status = sh(script: "curl -o /dev/null -s -w \"%{http_code}\" $BASE_URL", returnStdout:true).trim()
-            if(status != "200")
-                {
-                error "Juice shop is unavailable! HTTP code: ${status}"
-                }else
-                {
-                    echo "Juice shop is available, HTTP code: ${status}"
-                }
-            }
-       }
         stage('Build & Test') {
             steps {
 
