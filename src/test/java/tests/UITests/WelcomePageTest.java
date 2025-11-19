@@ -66,7 +66,9 @@ public class WelcomePageTest extends BaseUITest {
                 .clickOnSwitchLanguageButton()
                 .clickOnLanguageRadioButton(language.name)
                 .refreshHomePage()
-                .verifyLanguageHasChanged(language);
+                .verifyLanguageHasChanged(language)
+                //TODO remove,it's for checking build behaviour on CI
+                .closeWelcomeBanner();
         softAssert.assertAll();
     }
 
