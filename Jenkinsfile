@@ -1,16 +1,34 @@
 pipeline {
     agent any
 
+    environment
+    {
+        BASE_URL = 'http://juicyshop:3000'
+    }
+
     stages {
        stage('Checkout') {
            steps {
                checkout scm
            }
        }
+
+       stage('Check Juice Shop')
+       {
+            steps {
+            def status = sh(script: "curl -o /dev/null -s -w \"%{http_code}\" $BASE_URL", returnStdout:true).trim()
+            if(status != "200")
+                {
+                error "Juice shop is unavailable! HTTP code: ${status}"
+                }else
+                {
+                    echo "Juice shop is available, HTTP code: ${status}"
+                }
+            }
+       }
         stage('Build & Test') {
             steps {
-                dir("${env.WORKSPACE}") {
-                    sh 'ls -la'
+                {
                     sh 'chmod +x gradlew'
                     sh './gradlew clean test -Dgroups=ui,api'
                 }
