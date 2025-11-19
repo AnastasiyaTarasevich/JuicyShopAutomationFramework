@@ -28,10 +28,10 @@ pipeline {
        }
         stage('Build & Test') {
             steps {
-                {
-                    sh 'chmod +x gradlew'
-                    sh './gradlew clean test -Dgroups=ui,api'
-                }
+
+               sh 'chmod +x gradlew'
+               sh './gradlew clean test -Dgroups=ui,api'
+
 
             }
         }
