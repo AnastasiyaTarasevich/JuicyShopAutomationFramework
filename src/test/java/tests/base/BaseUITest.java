@@ -8,6 +8,7 @@ import dtos.registration.RegisterRequestDTO;
 import dtos.registration.RegisterResponseDTO;
 import io.qameta.allure.Epic;
 import io.restassured.RestAssured;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterMethod;
@@ -30,6 +31,19 @@ public abstract class BaseUITest {
         log.info("Setting up selenide...");
         Configuration.browser = "chrome";
         Configuration.baseUrl = Config.getBaseUrl();
+
+        boolean isCi = System.getenv("CI") != null;
+        Configuration.headless = isCi;
+
+        ChromeOptions options = new ChromeOptions();
+        if (isCi) {
+            options.addArguments("--headless");
+            options.addArguments("--disable-gpu");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-ua");
+        }
+        Configuration.browserCapabilities = options;
+
         log.info("Open start page: {}", Configuration.baseUrl);
         open("/");
         if (!method.isAnnotationPresent(RegisterUser.class)) return;
