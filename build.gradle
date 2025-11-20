@@ -12,8 +12,8 @@ repositories {
 
 def testngVersion = "7.10.2"
 def selenideVersion = "7.11.1"
-def allureVersion = "2.24.0"
-def aspectJVersion = "1.9.20.1"
+def allureVersion = "2.29.1"
+def aspectJVersion = "1.9.25"
 def slf4jVersion = "2.0.9"
 def logbackVersion = "1.4.14"
 def apacheCommonsVersion = "3.0"
@@ -21,6 +21,7 @@ def restAssuredVersion = "5.4.0"
 def lombokVersion = "1.18.32"
 def jacksonVersion = "2.20.1"
 def fakerVersion = "1.0.2"
+def reportPortalAllureAgentVersion = "5.4.0"
 
 configurations {
     agent {
@@ -28,6 +29,8 @@ configurations {
         canBeConsumed = true
     }
 }
+
+def isCi = System.getenv('CI')?.toBoolean() ?: false
 
 dependencies {
     testImplementation "org.testng:testng:$testngVersion"
@@ -45,6 +48,10 @@ dependencies {
     testImplementation "io.qameta.allure:allure-rest-assured"
     testImplementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
     testImplementation "com.github.javafaker:javafaker:$fakerVersion"
+    if (isCi) {
+        testImplementation "com.epam.reportportal:agent-allure-testng:$reportPortalAllureAgentVersion"
+        agent "org.aspectj:aspectjweaver:$aspectJVersion"
+    }
 }
 
 checkstyle {
@@ -61,11 +68,19 @@ test {
             includeGroups groups
         }
         systemProperty "testng.listeners", "io.qameta.allure.testng.AllureTestNg"
+        if (isCi) {
+            systemProperty "reportPortal.listeners", "com.epam.reportportal.testng.ReportPortalTestNGListener"
+        }
     }
 
     testLogging {
         events "passed", "skipped", "failed"
     }
 
-    jvmArgs = ["-javaagent:${configurations.agent.singleFile}"]
+    doFirst {
+        if (isCi) {
+            def weaver = configurations.agent.singleFile
+            jvmArgs += "-javaagent:$weaver"
+        }
+    }
 }
