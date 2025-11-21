@@ -1,13 +1,17 @@
 package tests.base;
 
+import java.io.ByteArrayInputStream;
 import java.lang.reflect.Method;
 import annotations.RegisterUser;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import config.Config;
 import dtos.registration.RegisterRequestDTO;
 import dtos.registration.RegisterResponseDTO;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Epic;
 import io.restassured.RestAssured;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +58,18 @@ public abstract class BaseUITest {
     }
 
     @AfterMethod(alwaysRun = true)
-    public void tearDown() {
+    public void tearDown(org.testng.ITestResult result) {
+        if (!result.isSuccess()) {
+            try {
+                byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+                Allure.addAttachment("Screenshot on failure", new ByteArrayInputStream(screenshot));
+                String pageSource = Selenide.webdriver().object().getPageSource();
+                Allure.addAttachment("DOM on failure", "text/html", pageSource, ".html");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         log.info("Tearing down selenide...");
         closeWebDriver();
     }
