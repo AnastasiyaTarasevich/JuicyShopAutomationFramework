@@ -20,25 +20,27 @@ pipeline {
                 script {
                     sh 'chmod +x gradlew'
 
-                  def result = sh(script: './gradlew clean test -Dgroups=ui,api', returnStatus: true)
-
+                    def result = sh(script: "./gradlew clean test -Dgroups=ui,api", returnStatus: true)
                     if (result != 0) {
-                        echo "Some tests failed, but pipeline will continue"
+                        echo "Tests failed, but continuing"
                     }
                 }
+            }
+        }
+
+        stage('Allure Report') {
+            steps {
+                echo "Generating Allure report..."
+                allure([
+                    results: [[path: 'build/allure-results']],
+                    reportBuildPolicy: 'ALWAYS'
+                ])
+                echo "Allure report generated."
             }
         }
     }
 
     post {
-        always {
-            echo 'Generating Allure report...'
-            allure([
-                results: [[path: 'build/allure-results']],
-                reportBuildPolicy: 'ALWAYS'
-            ])
-            echo 'Pipeline finished.'
-        }
         success {
             echo 'Tests passed successfully!'
         }
