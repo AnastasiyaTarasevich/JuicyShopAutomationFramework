@@ -1,16 +1,21 @@
 package tests.base;
 
+import java.io.ByteArrayInputStream;
 import java.lang.reflect.Method;
 import annotations.RegisterUser;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import config.Config;
 import dtos.registration.RegisterRequestDTO;
 import dtos.registration.RegisterResponseDTO;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Epic;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.restassured.RestAssured;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,8 +74,19 @@ public abstract class BaseUITest {
 
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
-        log.info("Tearing down selenide...");
-        closeWebDriver();
+        try {
+            if (result.getStatus() == ITestResult.FAILURE) {
+                byte[] screenshot = ((TakesScreenshot) WebDriverRunner.getWebDriver())
+                        .getScreenshotAs(OutputType.BYTES);
+                Allure.addAttachment("Screenshot", new ByteArrayInputStream(screenshot));
+                String html = WebDriverRunner.source();
+                Allure.addAttachment("Page Source", "text/html", html);
+            }
+        } catch (Exception e) {
+            log.warn("Failed to capture screenshot/page source: " + e.getMessage());
+        } finally {
+            closeWebDriver();
+        }
     }
 
 }
