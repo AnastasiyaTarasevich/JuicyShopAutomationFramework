@@ -6,6 +6,7 @@ import com.codeborne.selenide.Configuration;
 import config.Config;
 import dtos.registration.RegisterRequestDTO;
 import dtos.registration.RegisterResponseDTO;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Epic;
 import io.restassured.RestAssured;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -29,6 +30,7 @@ public abstract class BaseUITest {
     @BeforeMethod(alwaysRun = true)
     public void setUp(Method method) throws Exception {
         log.info("Setting up selenide...");
+        WebDriverManager.chromedriver().setup();
         Configuration.browser = "chrome";
         Configuration.baseUrl = Config.getBaseUrl();
 
@@ -40,7 +42,7 @@ public abstract class BaseUITest {
             options.addArguments("--headless");
             options.addArguments("--disable-gpu");
             options.addArguments("--no-sandbox");
-            options.addArguments("--disable-dev-shm-ua");
+            options.addArguments("--disable-dev-shm-usage");
         }
         Configuration.browserCapabilities = options;
 

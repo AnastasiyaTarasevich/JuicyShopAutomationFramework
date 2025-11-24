@@ -19,7 +19,9 @@ pipeline {
             steps {
                 script {
                     sh 'chmod +x gradlew'
-                    def result = sh(script: './gradlew clean test -Dgroups=ui,api', returnStatus: true)
+
+                  def result = sh(script: './gradlew clean test -Dgroups=ui,api', returnStatus: true)
+
                     if (result != 0) {
                         echo "Some tests failed, but pipeline will continue"
                     }
