@@ -47,6 +47,7 @@ dependencies {
     testImplementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
     testImplementation "com.github.javafaker:javafaker:$fakerVersion"
     testImplementation "io.github.bonigarcia:webdrivermanager:$webDriverManagerVersion"
+    testImplementation "io.qameta.allure:allure-selenide"
 }
 
 checkstyle {

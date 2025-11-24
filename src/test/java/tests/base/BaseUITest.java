@@ -3,17 +3,21 @@ package tests.base;
 import java.lang.reflect.Method;
 import annotations.RegisterUser;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.logevents.SelenideLogger;
 import config.Config;
 import dtos.registration.RegisterRequestDTO;
 import dtos.registration.RegisterResponseDTO;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Epic;
+import io.qameta.allure.selenide.AllureSelenide;
 import io.restassured.RestAssured;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 import org.testng.asserts.SoftAssert;
 import steps.APISteps.RegisterApiSteps;
 import static com.codeborne.selenide.Selenide.closeWebDriver;
@@ -26,6 +30,14 @@ public abstract class BaseUITest {
     protected RegisterResponseDTO registeredUser;
     protected final SoftAssert softAssert = new SoftAssert();
     protected final RegisterApiSteps registerApiSteps = new RegisterApiSteps(softAssert);
+
+    @BeforeSuite(alwaysRun = true)
+    public void setupAllureReports() {
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
+                .screenshots(true)
+                .savePageSource(true)
+        );
+    }
 
     @BeforeMethod(alwaysRun = true)
     public void setUp(Method method) throws Exception {
@@ -56,8 +68,9 @@ public abstract class BaseUITest {
     }
 
     @AfterMethod(alwaysRun = true)
-    public void tearDown() {
+    public void tearDown(ITestResult result) {
         log.info("Tearing down selenide...");
         closeWebDriver();
     }
+
 }
