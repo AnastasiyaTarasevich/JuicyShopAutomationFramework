@@ -9,7 +9,7 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Checkout SCM') {
             steps {
                 checkout scm
             }
@@ -22,7 +22,7 @@ pipeline {
 
                     def result = sh(script: "./gradlew clean test -Dgroups=ui,api", returnStatus: true)
                     if (result != 0) {
-                        echo "Tests failed, but continuing"
+                        echo "Some tests failed, but continuing pipeline..."
                     }
                 }
             }
@@ -38,14 +38,30 @@ pipeline {
                 echo "Allure report generated."
             }
         }
+
+        stage('Telegram Notification') {
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'TELEGRAM_CHAT_ID', variable: 'CHAT_ID')]) {
+                        def status = currentBuild.currentResult ?: 'UNKNOWN'
+                        def message = """Job '${env.JOB_NAME}' #${env.BUILD_NUMBER} finished.
+                        Status: ${status}
+                        Check console: ${env.BUILD_URL}
+                        Allure report: ${env.BUILD_URL}allure-report"""
+
+                        telegramSend(
+                            chatId: CHAT_ID,
+                            message: message
+                        )
+                    }
+                }
+            }
+        }
     }
 
     post {
-        success {
-            echo 'Tests passed successfully!'
-        }
-        failure {
-            echo 'Tests failed. Check logs for details.'
+        always {
+            echo "Pipeline finished. Telegram notification stage handles sending messages."
         }
     }
 }
