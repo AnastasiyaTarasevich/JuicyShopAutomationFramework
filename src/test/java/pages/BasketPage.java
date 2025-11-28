@@ -1,30 +1,24 @@
 package pages;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
-public enum HomePage implements PageElement {
-
-    ACCOUNT_BUTTON("navbarAccount", true),
-    LOGIN_PAGE_BUTTON("", false),
-    SEARCH_BUTTON("searchQuery", true),
-    SEARCH_INPUT("mat-input-1", false),
-    PRODUCT_CARDS("", false),
-    LANGUAGE_BUTTON("navbarLanguageButton", true),
-    LANGUAGE_RADIO_BUTTONS("", false),
-    CLOSE_COOKIES_BUTTON("", false),
-    PRODUCTS_TITLE("", false),
-    BASKET_ICON("", false),
+public enum BasketPage implements PageElement {
+    BASKET_TITLE("", false),
+    TOTAL_PRICE("price", true),
+    CHECKOUT_BUTTON("checkoutButton", true),
+    BASKET_EMAIL("", false),
+    PRODUCT_ROWS("", false),
     ;
 
     private final String id;
     private final boolean required;
 
-    private final String pageName = "HOME PAGE";
+    private final String pageName = "BASKET PAGE";
 
-    HomePage(String id, boolean required) {
+    BasketPage(String id, boolean required) {
         this.id = id;
         this.required = required;
     }
@@ -40,14 +34,10 @@ public enum HomePage implements PageElement {
             return PageElement.super.getElement();
         }
         switch (this) {
-            case LOGIN_PAGE_BUTTON:
-                return $("button[aria-label='Go to login page']");
-            case CLOSE_COOKIES_BUTTON:
-                return $("a[aria-label='dismiss cookie message']");
-            case PRODUCTS_TITLE:
-                return $("div.heading");
-            case BASKET_ICON:
-                return $("button[aria-label='Show the shopping cart']");
+            case BASKET_TITLE:
+                return $$("h1").find(Condition.text("Your Basket"));
+            case BASKET_EMAIL:
+                return $$("h1").find(Condition.text("Your Basket")).$("small");
             default:
                 throw new IllegalStateException("No locator defined for element: " + this.name());
         }
@@ -55,10 +45,8 @@ public enum HomePage implements PageElement {
 
     public ElementsCollection getElements() {
         switch (this) {
-            case PRODUCT_CARDS:
-                return $$("div.mdc-card");
-            case LANGUAGE_RADIO_BUTTONS:
-                return $$("input[type='radio']");
+            case PRODUCT_ROWS:
+                return $$("mat-row");
             default:
                 throw new IllegalStateException("No collection defined for element: " + this.name());
         }

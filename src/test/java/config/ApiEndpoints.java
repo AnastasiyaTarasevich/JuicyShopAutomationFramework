@@ -7,5 +7,5 @@ public class ApiEndpoints {
 
     public static final String ALL_PRODUCTS = "/rest/products/search";
 
-    public static final String ADD_ITEM_TO_BASKET = "/api/Users/BasketItems/";
+    public static final String ADD_ITEM_TO_BASKET = "/api/BasketItems/";
 }

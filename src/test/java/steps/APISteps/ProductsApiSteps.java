@@ -1,5 +1,6 @@
 package steps.APISteps;
 
+import java.util.Collections;
 import java.util.List;
 import config.ApiEndpoints;
 import dtos.products.ProductDTO;
@@ -66,4 +67,13 @@ public class ProductsApiSteps extends BaseAPISteps {
         });
         return this;
     }
+
+    public List<ProductDTO> getRandomProductsFromSite(int count) {
+        List<ProductDTO> allProducts = getAllProducts();
+        verifyProductsNotEmpty(allProducts);
+
+        Collections.shuffle(allProducts);
+        return allProducts.subList(0, count);
+    }
+
 }
