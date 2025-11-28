@@ -2,6 +2,7 @@ package steps.base;
 
 import actions.BrowserActions;
 import actions.ElementActions;
+import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.slf4j.Logger;
@@ -52,6 +53,17 @@ public abstract class BaseUISteps {
     protected void isElementDisplayed(PageElement element, String elementName) {
         boolean visible = elementActions.isElementDisplayed(element.getElement());
         softAssert.assertTrue(visible, "Element should be visible: " + elementName);
+    }
+
+    //TODO refactor to visible and invisible click on element and return this for chain call
+    @Step("{element.pageName} - Click on the {element}")
+    public void clickOnElement(PageElement element) {
+        SelenideElement el = element.getElement();
+        if (el.isDisplayed()) {
+            elementActions.click(el);
+        } else {
+            elementActions.clickWithoutVisible(el);
+        }
     }
 
 }

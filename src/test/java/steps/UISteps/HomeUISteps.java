@@ -176,4 +176,12 @@ public class HomeUISteps extends BaseUISteps {
         });
         return this;
     }
+
+    public HomeUISteps clickOnBasket() {
+        performStep(HomePage.BASKET_ICON, "Click on basket icon", () ->
+        {
+            elementActions.click(HomePage.BASKET_ICON.getElement());
+        });
+        return this;
+    }
 }

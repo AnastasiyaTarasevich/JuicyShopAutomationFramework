@@ -22,6 +22,20 @@ public class ApiClient {
                 .extract().response();
     }
 
+    public <T> Response postWithAuth(String path, T body, String token) {
+        return given()
+                .filter(new AllureRestAssured())
+                .baseUri(RestAssured.baseURI)
+                .contentType("application/json")
+                .header("Authorization", "Bearer " + token)
+                .body(body)
+                .when()
+                .post(path)
+                .then()
+                .log().ifError()
+                .extract().response();
+    }
+
     public Response get(String path) {
         return given()
                 .filter(new AllureRestAssured())

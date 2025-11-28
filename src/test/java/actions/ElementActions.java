@@ -27,6 +27,10 @@ public class ElementActions {
         }
     }
 
+    public void clickWithoutVisible(SelenideElement element) {
+        element.click();
+    }
+
     public void setValue(SelenideElement element, String value) {
         shouldBeVisible(element).setValue(value);
     }
@@ -91,6 +95,14 @@ public class ElementActions {
 
     public SelenideElement shouldHaveText(SelenideElement element, String text) {
         return element.shouldHave(Condition.text(text));
+    }
+
+    public SelenideElement shouldHaveText(ElementsCollection elements, String text) {
+        return findBy(elements, Condition.text(text), 2, true);
+    }
+
+    public SelenideElement shouldContainText(SelenideElement element, String text) {
+        return element.shouldHave(Condition.partialText(text));
     }
 
     public SelenideElement shouldHaveAriaLabel(SelenideElement element, String label) {
