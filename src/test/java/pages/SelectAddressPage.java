@@ -1,5 +1,7 @@
 package pages;
 
+import java.time.Duration;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
@@ -34,21 +36,28 @@ public enum SelectAddressPage implements PageElement {
         return id;
     }
 
+    //TODO refactor (think about the common method)
     @Override
     public SelenideElement getElement() {
         if (id != null && !id.isEmpty()) {
             return PageElement.super.getElement();
         }
+        SelenideElement element;
         switch (this) {
             case SELECT_ADDRESS_TITLE:
-                return $x("//h1[contains(normalize-space(.),'Select an address')]");
+                element = $x("//h1[contains(normalize-space(.),'Select an address')]");
+                break;
             case ADD_ADDRESS_BUTTON:
-                return $("button[aria-label = 'Add a new address']");
+                element = $("button[aria-label = 'Add a new address']");
+                break;
             case CONTINUE_BUTTON:
-                return $("button[aria-label = 'Proceed to payment selection']");
+                element = $("button[aria-label = 'Proceed to payment selection']");
+                break;
             default:
                 throw new IllegalStateException("No locator defined for element: " + this.name());
         }
+        element.should(Condition.exist, Duration.ofSeconds(3));
+        return element;
     }
 
     @Override

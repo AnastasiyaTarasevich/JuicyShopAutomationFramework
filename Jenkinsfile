@@ -45,9 +45,9 @@ pipeline {
                     withCredentials([string(credentialsId: 'TELEGRAM_CHAT_ID', variable: 'CHAT_ID')]) {
                         def status = currentBuild.currentResult ?: 'UNKNOWN'
                         def message = """Job '${env.JOB_NAME}' #${env.BUILD_NUMBER} finished.
-                        Status: ${status}
-                        Check console: ${env.BUILD_URL}
-                        Allure report: ${env.BUILD_URL}allure-report"""
+Status: ${status}
+Check console: ${env.BUILD_URL}
+Allure report: ${env.BUILD_URL}allure"""
 
                         telegramSend(
                             chatId: CHAT_ID,

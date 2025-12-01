@@ -37,6 +37,7 @@ public class RandomDataGenerator {
         return faker.artist().name();
     }
 
+    //TODO refactor (exclude 0)
     public static String randomPhoneNumber() {
         return faker.number().digits(10);
     }

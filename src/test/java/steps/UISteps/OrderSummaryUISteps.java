@@ -4,7 +4,7 @@ import org.testng.asserts.SoftAssert;
 import pages.OrderSummaryPage;
 import steps.base.BaseUISteps;
 
-public class OrderSummaryUISteps extends BaseUISteps {
+public class OrderSummaryUISteps extends BaseUISteps<OrderSummaryUISteps> {
     public OrderSummaryUISteps(SoftAssert softAssert) {
         super(softAssert);
     }

@@ -4,7 +4,7 @@ import org.testng.asserts.SoftAssert;
 import pages.DeliveryPage;
 import steps.base.BaseUISteps;
 
-public class DeliveryUISteps extends BaseUISteps {
+public class DeliveryUISteps extends BaseUISteps<DeliveryUISteps> {
 
     public DeliveryUISteps(SoftAssert softAssert) {
         super(softAssert);
