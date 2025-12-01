@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.asserts.SoftAssert;
 import pages.PageElement;
 
-public abstract class BaseUISteps {
+public abstract class BaseUISteps<SELF extends BaseUISteps<SELF>> {
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
     protected SoftAssert softAssert;
@@ -55,15 +55,15 @@ public abstract class BaseUISteps {
         softAssert.assertTrue(visible, "Element should be visible: " + elementName);
     }
 
-    //TODO refactor to visible and invisible click on element and return this for chain call
     @Step("{element.pageName} - Click on the {element}")
-    public void clickOnElement(PageElement element) {
+    public SELF clickOnElement(PageElement element) {
         SelenideElement el = element.getElement();
         if (el.isDisplayed()) {
             elementActions.click(el);
         } else {
             elementActions.clickWithoutVisible(el);
         }
+        return (SELF) this;
     }
 
 }

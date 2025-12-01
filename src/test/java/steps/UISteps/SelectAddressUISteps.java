@@ -4,7 +4,7 @@ import org.testng.asserts.SoftAssert;
 import pages.SelectAddressPage;
 import steps.base.BaseUISteps;
 
-public class SelectAddressUISteps extends BaseUISteps {
+public class SelectAddressUISteps extends BaseUISteps<SelectAddressUISteps> {
 
     public SelectAddressUISteps(SoftAssert softAssert) {
         super(softAssert);

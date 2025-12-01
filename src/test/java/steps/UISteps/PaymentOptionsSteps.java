@@ -3,8 +3,9 @@ package steps.UISteps;
 import com.codeborne.selenide.SelenideElement;
 import org.testng.asserts.SoftAssert;
 import pages.PaymentOptionsPage;
+import steps.base.BaseUISteps;
 
-public class PaymentOptionsSteps extends BasketUISteps {
+public class PaymentOptionsSteps extends BaseUISteps<PaymentOptionsSteps> {
     public PaymentOptionsSteps(SoftAssert softAssert) {
         super(softAssert);
     }

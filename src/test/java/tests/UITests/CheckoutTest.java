@@ -3,7 +3,6 @@ package tests.UITests;
 import java.util.List;
 import annotations.LoginUser;
 import annotations.RegisterUser;
-import com.codeborne.selenide.Selenide;
 import dtos.products.ProductDTO;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
@@ -12,6 +11,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.BasketPage;
 import pages.DeliveryPage;
+import pages.OrderCompletionPage;
 import pages.OrderSummaryPage;
 import pages.PaymentOptionsPage;
 import pages.SelectAddressPage;
@@ -20,9 +20,11 @@ import steps.APISteps.ProductsApiSteps;
 import steps.UISteps.BasketUISteps;
 import steps.UISteps.DeliveryUISteps;
 import steps.UISteps.HomeUISteps;
+import steps.UISteps.OrderCompletionUISteps;
 import steps.UISteps.OrderSummaryUISteps;
 import steps.UISteps.PaymentOptionsSteps;
 import steps.UISteps.SelectAddressUISteps;
+import steps.UISteps.TrackOrdersUISteps;
 import tests.base.BaseUITest;
 import utils.RandomDataGenerator;
 import utils.TestGroups;
@@ -38,8 +40,10 @@ public class CheckoutTest extends BaseUITest {
     private final DeliveryUISteps deliveryUISteps = new DeliveryUISteps(softAssert);
     private final PaymentOptionsSteps paymentOptionsSteps = new PaymentOptionsSteps(softAssert);
     private final OrderSummaryUISteps orderSummaryUISteps = new OrderSummaryUISteps(softAssert);
+    private final OrderCompletionUISteps orderCompletionUISteps = new OrderCompletionUISteps(softAssert);
+    private final TrackOrdersUISteps trackOrdersUISteps = new TrackOrdersUISteps(softAssert);
 
-    @Test(groups = {TestGroups.UI})
+    @Test(groups = {TestGroups.UI, TestGroups.DEBUG})
     @Feature("Checkout")
     @Description("Verify user can successfully complete an order")
     @Severity(CRITICAL)
@@ -61,45 +65,39 @@ public class CheckoutTest extends BaseUITest {
                 .addSeveralProductsToBasket(loggedUserToken, loggedUserBasketId, productList);
         homeSteps
                 .clickOnBasket();
-
         basketUISteps
                 .verifyBasketPageVisible()
                 .verifyBasketContainsRightEmail(createdUser.getEmail())
                 .verifyProductsInBasket(productList)
                 .clickOnElement(BasketPage.CHECKOUT_BUTTON);
         selectAddressUISteps
-                .clickOnElement(SelectAddressPage.ADD_ADDRESS_BUTTON);
-        selectAddressUISteps
+                .clickOnElement(SelectAddressPage.ADD_ADDRESS_BUTTON)
                 .fillNewAddressForm(country, name, mobile, zip, address, city, state)
-                .clickOnElement(SelectAddressPage.SUBMIT_BUTTON);
-        //TODO refactor sleep (maybe custom waits)
-        Selenide.sleep(1000);
-        selectAddressUISteps
-                .clickOnElement(SelectAddressPage.SELECT_RADIO_BUTTON);
-        selectAddressUISteps
+                .clickOnElement(SelectAddressPage.SUBMIT_BUTTON)
+                .clickOnElement(SelectAddressPage.SELECT_RADIO_BUTTON)
                 .clickOnElement(SelectAddressPage.CONTINUE_BUTTON);
         deliveryUISteps
                 .verifyAddress(country, name, mobile, zip, address, city, state)
-                .clickOnElement(DeliveryPage.ONE_DAY_RADIO);
-        deliveryUISteps
+                .clickOnElement(DeliveryPage.ONE_DAY_RADIO)
                 .clickOnElement(DeliveryPage.CONTINUE_BUTTON);
         paymentOptionsSteps
                 .verifyPaymentOptionsPageVisible()
-                .clickOnElement(PaymentOptionsPage.ADD_NEW_CARD_PANEL);
-        paymentOptionsSteps
+                .clickOnElement(PaymentOptionsPage.ADD_NEW_CARD_PANEL)
                 .fillPaymentCard(name, card, month, year)
-                .clickOnElement(PaymentOptionsPage.SUBMIT_BUTTON);
-        //TODO refactor sleep
-        Selenide.sleep(1000);
-        paymentOptionsSteps
-                .clickOnElement(PaymentOptionsPage.PAYMENT_RADIO);
-        paymentOptionsSteps
+                .clickOnElement(PaymentOptionsPage.SUBMIT_BUTTON)
+                .clickOnElement(PaymentOptionsPage.PAYMENT_RADIO)
                 .clickOnContinueButton();
-        //TODO refactor (verify order)
         orderSummaryUISteps
                 .verifyOrderSummaryPageVisible()
                 .clickOnElement(OrderSummaryPage.COMPLETE_PURCHASE_BUTTON);
-        // TODO refactor (add order completion)
+        orderCompletionUISteps
+                .verifyOrderCompletionPageIsVisible();
+        String orderId = orderCompletionUISteps.extractTrackingNumberFromUrl();
+        orderCompletionUISteps
+                .checkOrderCompletion(country, mobile, address, city, productList)
+                .clickOnElement(OrderCompletionPage.TRACK_ORDERS_LINK);
+        trackOrdersUISteps
+                .verifyTrackNumberOnPage(orderId);
         softAssert.assertAll();
     }
 }

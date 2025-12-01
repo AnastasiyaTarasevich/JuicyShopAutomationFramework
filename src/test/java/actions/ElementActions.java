@@ -17,6 +17,7 @@ public class ElementActions {
     }
 
     public void click(SelenideElement element, int timeoutSeconds) {
+        element.should(Condition.exist, Duration.ofSeconds(timeoutSeconds));
         try {
             element.click();
         } catch (ElementNotInteractableException | UIAssertionError e) {
