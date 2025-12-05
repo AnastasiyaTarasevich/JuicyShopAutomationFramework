@@ -46,7 +46,8 @@ public class OrderCompletionUISteps extends BaseUISteps<OrderCompletionUISteps> 
     }
 
     public OrderCompletionUISteps verifyProductInTable(ProductDTO product) {
-        performStep(OrderCompletionPage.TABLE_CONTAINER, "Verify completion table contains product: " + product, () -> {
+        performStep(OrderCompletionPage.TABLE_CONTAINER, "Verify completion table contains product: "
+                + product.getName(), () -> {
 
             elementActions.shouldHaveText(OrderCompletionPage.TABLE_CONTAINER.getElement(), product.getName());
             elementActions.shouldHaveText(OrderCompletionPage.TABLE_CONTAINER.getElement(), "1");

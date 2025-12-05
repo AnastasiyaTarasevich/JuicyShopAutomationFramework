@@ -76,4 +76,9 @@ public class ProductsApiSteps extends BaseAPISteps {
         return allProducts.subList(0, count);
     }
 
+    public ProductDTO getRandomProduct() {
+        List<ProductDTO> allProducts = getAllProducts();
+        Collections.shuffle(allProducts);
+        return allProducts.get(0);
+    }
 }

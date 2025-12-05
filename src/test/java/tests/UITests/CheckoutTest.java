@@ -43,7 +43,7 @@ public class CheckoutTest extends BaseUITest {
     private final OrderCompletionUISteps orderCompletionUISteps = new OrderCompletionUISteps(softAssert);
     private final TrackOrdersUISteps trackOrdersUISteps = new TrackOrdersUISteps(softAssert);
 
-    @Test(groups = {TestGroups.UI, TestGroups.DEBUG})
+    @Test(groups = {TestGroups.UI})
     @Feature("Checkout")
     @Description("Verify user can successfully complete an order")
     @Severity(CRITICAL)
@@ -60,7 +60,8 @@ public class CheckoutTest extends BaseUITest {
         String card = RandomDataGenerator.randomCardNumber();
         String month = RandomDataGenerator.randomMonth();
         String year = RandomDataGenerator.randomYear();
-        List<ProductDTO> productList = productsApiSteps.getRandomProductsFromSite(4);
+        int amountOfProducts = RandomDataGenerator.getRandomIntFrom1To10();
+        List<ProductDTO> productList = productsApiSteps.getRandomProductsFromSite(amountOfProducts);
         basketApiSteps
                 .addSeveralProductsToBasket(loggedUserToken, loggedUserBasketId, productList);
         homeSteps

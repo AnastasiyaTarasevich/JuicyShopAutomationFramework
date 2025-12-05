@@ -37,9 +37,11 @@ public class RandomDataGenerator {
         return faker.artist().name();
     }
 
-    //TODO refactor (exclude 0)
     public static String randomPhoneNumber() {
-        return faker.number().digits(10);
+        int firstDigit = faker.number().numberBetween(1, 9);
+        String otherDigits = faker.number().digits(9);
+
+        return firstDigit + otherDigits;
     }
 
     public static String randomZipCode() {
@@ -80,5 +82,9 @@ public class RandomDataGenerator {
     public static String randomYear() {
         int year = faker.number().numberBetween(2080, 2099);
         return String.valueOf(year);
+    }
+
+    public static int getRandomIntFrom1To10() {
+        return ThreadLocalRandom.current().nextInt(1, 10);
     }
 }
