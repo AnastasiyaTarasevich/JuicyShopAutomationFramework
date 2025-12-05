@@ -27,7 +27,7 @@ public class BasketUISteps extends BaseUISteps {
     }
 
     public BasketUISteps verifyProductsInBasket(List<ProductDTO> products) {
-        performStep(BasketPage.PRODUCT_ROWS, "Verify basket contains all products: " + products, () -> {
+        performStep(BasketPage.PRODUCT_ROWS, "Verify basket contains all products: ", () -> {
             for (ProductDTO product : products) {
                 verifyProductInBasket(product);
             }
@@ -36,7 +36,7 @@ public class BasketUISteps extends BaseUISteps {
     }
 
     public BasketUISteps verifyProductInBasket(ProductDTO product) {
-        performStep(BasketPage.PRODUCT_ROWS, "Verify basket contains product: " + product, () -> {
+        performStep(BasketPage.PRODUCT_ROWS, "Verify basket contains product: " + product.getName(), () -> {
 
             SelenideElement row = BasketPage.PRODUCT_ROWS.getElements()
                     .filterBy(Condition.text(product.getName()))
