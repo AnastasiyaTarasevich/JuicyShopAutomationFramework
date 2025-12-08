@@ -18,7 +18,7 @@ public class ProductsTests extends BaseAPITest {
 
     @Test(groups = {TestGroups.API})
     @Feature("Products")
-    @Description("Verify if user can get all products list")
+    @Description("Verify if user can getWithQueryParam all products list")
     @Severity(CRITICAL)
     public void getAllProducts() {
         List<ProductDTO> products = productsApiSteps.getAllProducts();

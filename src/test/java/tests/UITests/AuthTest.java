@@ -1,5 +1,6 @@
 package tests.UITests;
 
+import annotations.LoginUser;
 import annotations.RegisterUser;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
@@ -7,6 +8,7 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.TmsLink;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pages.HomePage;
 import steps.UISteps.HomeUISteps;
 import steps.UISteps.LoginUISteps;
 import steps.UISteps.RegisterUISteps;
@@ -58,6 +60,20 @@ public class AuthTest extends BaseUITest {
         loginSteps.verifyLoginPageVisible()
                 .loginAs(createdUser.getEmail(), createdUser.getPassword())
                 .verifyLoginSuccess(createdUser.getEmail());
+        softAssert.assertAll();
+    }
+
+    @Test(groups = {TestGroups.UI})
+    @Feature("Logout")
+    @Description("User is able to logout")
+    @Severity(CRITICAL)
+    @RegisterUser
+    @LoginUser
+    public void logoutTest() {
+        loginSteps.clickOnElement(HomePage.ACCOUNT_BUTTON)
+                .clickOnElement(HomePage.LOGOUT_BUTTON)
+                .clickOnElement(HomePage.ACCOUNT_BUTTON)
+                .isElementDisplayed(HomePage.LOGIN_PAGE_BUTTON, true);
         softAssert.assertAll();
     }
 }

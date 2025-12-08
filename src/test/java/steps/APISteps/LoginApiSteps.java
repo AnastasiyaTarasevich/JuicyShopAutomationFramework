@@ -40,4 +40,13 @@ public class LoginApiSteps extends BaseAPISteps {
         });
         return this;
     }
+
+    public LoginApiSteps verifyUserIsLoggedOut(String token) {
+        performStep("Verify user is logged out", () -> {
+            apiClient.getWithAuth(ApiEndpoints.GET_CURRENT_USER, token)
+                    .then()
+                    .statusCode(401);
+        });
+        return this;
+    }
 }

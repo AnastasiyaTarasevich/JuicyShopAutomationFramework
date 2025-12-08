@@ -21,7 +21,6 @@ public class AuthTests extends BaseAPITest {
     private final LoginApiSteps loginSteps = new LoginApiSteps(softAssert);
     private final RegisterApiSteps registerSteps = new RegisterApiSteps(softAssert);
 
-
     @Test(groups = {TestGroups.API})
     @Feature("Registration")
     @Description("User is able to register successfully via API")

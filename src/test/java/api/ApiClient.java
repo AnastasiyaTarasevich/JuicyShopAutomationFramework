@@ -3,6 +3,7 @@ package api;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import lombok.AllArgsConstructor;
 import static io.restassured.RestAssured.given;
 
@@ -10,11 +11,16 @@ import static io.restassured.RestAssured.given;
 public class ApiClient {
 
     public <T> Response post(String path, T body) {
-        return given()
+        RequestSpecification request = given()
                 .filter(new AllureRestAssured())
                 .baseUri(RestAssured.baseURI)
-                .contentType("application/json")
-                .body(body)
+                .contentType("application/json");
+
+        if (body != null) {
+            request.body(body);
+        }
+
+        return request
                 .when()
                 .post(path)
                 .then()
@@ -23,12 +29,17 @@ public class ApiClient {
     }
 
     public <T> Response postWithAuth(String path, T body, String token) {
-        return given()
+        RequestSpecification request = given()
                 .filter(new AllureRestAssured())
                 .baseUri(RestAssured.baseURI)
                 .contentType("application/json")
-                .header("Authorization", "Bearer " + token)
-                .body(body)
+                .header("Authorization", "Bearer " + token);
+
+        if (body != null) {
+            request.body(body);
+        }
+
+        return request
                 .when()
                 .post(path)
                 .then()
@@ -47,7 +58,19 @@ public class ApiClient {
                 .extract().response();
     }
 
-    public Response get(String path, String queryParam) {
+    public Response getWithAuth(String path, String token) {
+        return given()
+                .filter(new AllureRestAssured())
+                .baseUri(RestAssured.baseURI)
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .get(path)
+                .then()
+                .log().ifError()
+                .extract().response();
+    }
+
+    public Response getWithQueryParam(String path, String queryParam) {
         return given()
                 .filter(new AllureRestAssured())
                 .baseUri(RestAssured.baseURI)
@@ -58,5 +81,19 @@ public class ApiClient {
                 .log().ifError()
                 .extract().response();
     }
+
+    public Response getWithPathParamAndAuth(String path, String id, String token) {
+        return given()
+                .filter(new AllureRestAssured())
+                .baseUri(RestAssured.baseURI)
+                .header("Authorization", "Bearer " + token)
+                .pathParam("id", id)
+                .when()
+                .get(path)
+                .then()
+                .log().ifError()
+                .extract().response();
+    }
+
 
 }

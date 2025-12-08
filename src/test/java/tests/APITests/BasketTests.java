@@ -3,6 +3,7 @@ package tests.APITests;
 import java.util.List;
 import annotations.LoginUser;
 import annotations.RegisterUser;
+import annotations.SeveralProductsToBasket;
 import dtos.products.ProductDTO;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
@@ -27,7 +28,7 @@ public class BasketTests extends BaseAPITest {
     @Severity(CRITICAL)
     @RegisterUser
     @LoginUser
-    public void addOneProductToBasket() {
+    public void addOneProductToBasketTest() {
         ProductDTO product = productsApiSteps.getRandomProduct();
         basketApiSteps.addProductToBasket(loggedInUser.getAuthentication().getToken(),
                 loggedInUser.getAuthentication().getBid(), product);
@@ -41,11 +42,36 @@ public class BasketTests extends BaseAPITest {
     @Severity(CRITICAL)
     @RegisterUser
     @LoginUser
-    public void addSeveralProductsToBasket() {
+    public void addSeveralProductsToBasketTest() {
         int amountOfProducts = RandomDataGenerator.getRandomIntFrom1To10();
         List<ProductDTO> productList = productsApiSteps.getRandomProductsFromSite(amountOfProducts);
         basketApiSteps.addSeveralProductsToBasket(loggedInUser.getAuthentication().getToken(),
                 loggedInUser.getAuthentication().getBid(), productList);
         softAssert.assertAll();
     }
+
+    @Test(groups = {TestGroups.API})
+    @Feature("Basket")
+    @Description("Return the basket of the logged in user")
+    @Severity(CRITICAL)
+    @RegisterUser
+    @LoginUser
+    @SeveralProductsToBasket
+    public void getBasketTest() {
+        basketApiSteps.getUserBasket(loggedInUser.getAuthentication().getBid(),
+                loggedInUser.getAuthentication().getToken());
+        softAssert.assertAll();
+    }
+
+    //TODO rewrite
+//    @Test(groups = {TestGroups.API, TestGroups.DEBUG})
+//    @Feature("Basket")
+//    @Description("Delete the item from basket")
+//    @Severity(NORMAL)
+//    @RegisterUser
+//    @LoginUser
+//    @SeveralProductsToBasket
+//    public void deleteProductFromBasketTest() {
+//        basketApiSteps.deleteAnItemFromBasket();
+//    }
 }
