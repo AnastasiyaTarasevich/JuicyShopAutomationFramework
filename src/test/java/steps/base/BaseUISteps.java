@@ -50,9 +50,14 @@ public abstract class BaseUISteps<SELF extends BaseUISteps<SELF>> {
     }
 
     @Step("{element.pageName} — Verify visibility of {elementName}")
-    protected void isElementDisplayed(PageElement element, String elementName) {
-        boolean visible = elementActions.isElementDisplayed(element.getElement());
-        softAssert.assertTrue(visible, "Element should be visible: " + elementName);
+    public SELF isElementDisplayed(PageElement element, boolean shouldDisplayed) {
+        boolean isDisplayed = elementActions.isElementDisplayed(element.getElement());
+        if (shouldDisplayed) {
+            softAssert.assertTrue(isDisplayed, "Element should be displayed: " + element.getElement().name());
+        } else {
+            softAssert.assertFalse(isDisplayed, "Element should not be displayed: " + element.getElement().name());
+        }
+        return (SELF) this;
     }
 
     @Step("{element.pageName} - Click on the {element}")

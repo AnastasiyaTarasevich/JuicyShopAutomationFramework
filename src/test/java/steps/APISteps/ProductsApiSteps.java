@@ -38,7 +38,7 @@ public class ProductsApiSteps extends BaseAPISteps {
     }
 
     private ProductsResponseDTO getProductsByName(String productName) {
-        response = apiClient.get(ApiEndpoints.ALL_PRODUCTS, productName)
+        response = apiClient.getWithQueryParam(ApiEndpoints.ALL_PRODUCTS, productName)
                 .then()
                 .statusCode(StatusCode.OK.getStatusCode())
                 .extract()

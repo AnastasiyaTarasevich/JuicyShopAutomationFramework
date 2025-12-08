@@ -6,7 +6,7 @@ import pages.HomePageLoggedIn;
 import pages.LoginPage;
 import steps.base.BaseUISteps;
 
-public class LoginUISteps extends BaseUISteps {
+public class LoginUISteps extends BaseUISteps<LoginUISteps> {
     public LoginUISteps(SoftAssert softAssert) {
         super(softAssert);
     }

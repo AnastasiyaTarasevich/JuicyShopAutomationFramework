@@ -28,7 +28,7 @@ public class RegisterUISteps extends BaseUISteps {
             elementActions.setValue(RegisterPage.REPEAT_PASSWORD_INPUT.getElement(), passwordRepeat);
 
             elementActions.click(RegisterPage.QUESTIONS_INPUT.getElement());
-            isElementDisplayed(RegisterPage.QUESTIONS_PANEL, RegisterPage.QUESTIONS_PANEL.name());
+            isElementDisplayed(RegisterPage.QUESTIONS_PANEL, true);
             elementActions.findBy(RegisterPage.QUESTIONS_OPTIONS.getElements(),
                     Condition.text(securityQuestion.getQuestion().getQuestion()), 2, true).click();
             elementActions.setValue(RegisterPage.ANSWER_INPUT.getElement(), securityAnswer);

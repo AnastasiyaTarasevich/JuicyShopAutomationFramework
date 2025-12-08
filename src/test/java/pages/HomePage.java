@@ -17,7 +17,7 @@ public enum HomePage implements PageElement {
     CLOSE_COOKIES_BUTTON("", false),
     PRODUCTS_TITLE("", false),
     BASKET_ICON("", false),
-    ;
+    LOGOUT_BUTTON("navbarLogoutButton", false);
 
     private final String id;
     private final boolean required;
