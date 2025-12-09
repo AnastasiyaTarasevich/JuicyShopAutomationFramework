@@ -4,6 +4,7 @@ import java.util.List;
 import annotations.LoginUser;
 import annotations.RegisterUser;
 import annotations.SeveralProductsToBasket;
+import dtos.basket.UserBasketResponse;
 import dtos.products.ProductDTO;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
@@ -16,6 +17,7 @@ import tests.base.BaseAPITest;
 import utils.RandomDataGenerator;
 import utils.TestGroups;
 import static io.qameta.allure.SeverityLevel.CRITICAL;
+import static io.qameta.allure.SeverityLevel.NORMAL;
 
 public class BasketTests extends BaseAPITest {
     private final SoftAssert softAssert = new SoftAssert();
@@ -63,15 +65,25 @@ public class BasketTests extends BaseAPITest {
         softAssert.assertAll();
     }
 
-    //TODO rewrite
-//    @Test(groups = {TestGroups.API, TestGroups.DEBUG})
-//    @Feature("Basket")
-//    @Description("Delete the item from basket")
-//    @Severity(NORMAL)
-//    @RegisterUser
-//    @LoginUser
-//    @SeveralProductsToBasket
-//    public void deleteProductFromBasketTest() {
-//        basketApiSteps.deleteAnItemFromBasket();
-//    }
+    @Test(groups = {TestGroups.API})
+    @Feature("Basket")
+    @Description("Delete the item from basket")
+    @Severity(NORMAL)
+    @RegisterUser
+    @LoginUser
+    @SeveralProductsToBasket
+    public void deleteProductFromBasketTest() {
+
+        UserBasketResponse basket = basketApiSteps.getUserBasket(loggedInUser.getAuthentication().getBid(),
+                loggedInUser.getAuthentication().getToken());
+        ProductDTO item = basketApiSteps.getAnyBasketItemId(basket);
+        basketApiSteps.deleteAnItemFromBasket(item, loggedInUser.getAuthentication().getToken());
+        basket = basketApiSteps.getUserBasket(loggedInUser.getAuthentication().getBid(),
+                loggedInUser.getAuthentication().getToken());
+        basketApiSteps.verifyBasketItemWasDeleted(basket, item);
+
+        softAssert.assertAll();
+    }
+
+
 }

@@ -71,9 +71,10 @@ public class AuthTest extends BaseUITest {
     @LoginUser
     public void logoutTest() {
         loginSteps.clickOnElement(HomePage.ACCOUNT_BUTTON)
-                .clickOnElement(HomePage.LOGOUT_BUTTON)
-                .clickOnElement(HomePage.ACCOUNT_BUTTON)
-                .isElementDisplayed(HomePage.LOGIN_PAGE_BUTTON, true);
+                .clickOnElement(HomePage.LOGOUT_BUTTON);
+        homeSteps
+                .verifyUserIsLoggedOut();
+
         softAssert.assertAll();
     }
 }
