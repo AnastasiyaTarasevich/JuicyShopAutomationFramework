@@ -95,5 +95,18 @@ public class ApiClient {
                 .extract().response();
     }
 
+    public Response delete(String pathTemplate, String token, int pathParam) {
+        return given()
+                .filter(new AllureRestAssured())
+                .header("Authorization", "Bearer " + token)
+                .baseUri(RestAssured.baseURI)
+                .pathParam("basketItemId", pathParam)
+                .when()
+                .delete(pathTemplate)
+                .then()
+                .log().ifError()
+                .extract()
+                .response();
+    }
 
 }

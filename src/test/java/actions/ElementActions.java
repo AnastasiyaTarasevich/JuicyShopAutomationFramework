@@ -82,8 +82,16 @@ public class ElementActions {
         return element.shouldBe(visible, Duration.ofSeconds(durationOfSeconds));
     }
 
+    public SelenideElement shouldNotBeVisible(SelenideElement element) {
+        return element.shouldNotBe(visible);
+    }
+
     public SelenideElement shouldExist(SelenideElement element, int durationOfSeconds) {
         return element.should(exist, Duration.ofSeconds(durationOfSeconds));
+    }
+
+    public SelenideElement shouldNotExist(SelenideElement element) {
+        return element.shouldNot(exist);
     }
 
     public SelenideElement shouldBeEnabled(SelenideElement element, int durationOfSeconds) {

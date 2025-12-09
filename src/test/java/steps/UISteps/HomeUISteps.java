@@ -7,11 +7,11 @@ import com.codeborne.selenide.WebDriverRunner;
 import config.Translations;
 import org.openqa.selenium.Keys;
 import org.testng.asserts.SoftAssert;
-import utils.Language;
 import pages.HomePage;
 import pages.TipsBanner;
 import pages.WelcomeBanner;
 import steps.base.BaseUISteps;
+import utils.Language;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
@@ -184,4 +184,16 @@ public class HomeUISteps extends BaseUISteps {
         });
         return this;
     }
+
+    public HomeUISteps verifyUserIsLoggedOut() {
+        performStep(HomePage.ACCOUNT_BUTTON, "Verify user is logged out", () -> {
+            elementActions.click(HomePage.ACCOUNT_BUTTON.getElement());
+            elementActions.shouldBeVisible(HomePage.LOGIN_PAGE_BUTTON.getElement());
+            //TODO refactor
+            elementActions.shouldNotExist($("button[aria-label='Logout']"));
+            elementActions.shouldNotExist($("button[aria-label='Go to user profile']"));
+        });
+        return this;
+    }
+
 }
