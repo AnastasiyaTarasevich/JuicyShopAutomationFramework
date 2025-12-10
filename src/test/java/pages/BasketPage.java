@@ -11,7 +11,7 @@ public enum BasketPage implements PageElement {
     CHECKOUT_BUTTON("checkoutButton", true),
     BASKET_EMAIL("", false),
     PRODUCT_ROWS("", false),
-    ;
+    TRASH_ICON("", false);
 
     private final String id;
     private final boolean required;
@@ -49,6 +49,15 @@ public enum BasketPage implements PageElement {
                 return $$("mat-row");
             default:
                 throw new IllegalStateException("No collection defined for element: " + this.name());
+        }
+    }
+
+    public SelenideElement inRow(SelenideElement row) {
+        switch (this) {
+            case TRASH_ICON:
+                return row.$("button.mat-mdc-icon-button:has(svg[data-icon='trash-alt'])");
+            default:
+                throw new IllegalStateException("No locator defined for element: " + this.name());
         }
     }
 

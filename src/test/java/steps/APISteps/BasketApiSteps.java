@@ -2,7 +2,7 @@ package steps.APISteps;
 
 import java.util.Collections;
 import java.util.List;
-import config.ApiEndpoints;
+import api.ApiEndpoints;
 import dtos.basket.AddToBasketRequest;
 import dtos.basket.AddToBasketResponse;
 import dtos.basket.UserBasketResponse;
