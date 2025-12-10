@@ -1,6 +1,7 @@
 package steps.UISteps;
 
 import java.util.List;
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import dtos.products.ProductDTO;
@@ -50,5 +51,24 @@ public class BasketUISteps extends BaseUISteps {
         return this;
     }
 
+    public BasketUISteps deleteProductFromBasket(ProductDTO product) {
+        performStep(BasketPage.TRASH_ICON, "Delete product from basket: " + product.getName(), () -> {
+            SelenideElement row = BasketPage.PRODUCT_ROWS.getElements()
+                    .filterBy(Condition.text(product.getName()))
+                    .first();
+            elementActions.click(BasketPage.TRASH_ICON.inRow(row), 1);
+
+        });
+        return this;
+    }
+
+    public BasketUISteps verifyProductIsNotInBasket(ProductDTO product) {
+        performStep(BasketPage.PRODUCT_ROWS, "Verify basket is not containing product: " + product.getName(), () -> {
+            BasketPage.PRODUCT_ROWS.getElements()
+                    .filterBy(Condition.text(product.getName()))
+                    .shouldBe(CollectionCondition.empty);
+        });
+        return this;
+    }
 
 }

@@ -13,7 +13,7 @@ repositories {
 def testngVersion = "7.10.2"
 def selenideVersion = "7.11.1"
 def allureVersion = "2.24.0"
-def aspectJVersion = "1.9.20.1"
+def aspectJVersion = "1.9.22"
 def slf4jVersion = "2.0.9"
 def logbackVersion = "1.4.14"
 def apacheCommonsVersion = "3.0"
@@ -48,6 +48,9 @@ dependencies {
     testImplementation "com.github.javafaker:javafaker:$fakerVersion"
     testImplementation "io.github.bonigarcia:webdrivermanager:$webDriverManagerVersion"
     testImplementation "io.qameta.allure:allure-selenide"
+    testImplementation "com.epam.reportportal:agent-java-testng:5.0.1"
+    testImplementation "com.epam.reportportal:logger-java-log4j:5.0.1"
+
 }
 
 checkstyle {
@@ -63,12 +66,12 @@ test {
         if (groups) {
             includeGroups groups
         }
-        systemProperty "testng.listeners", "io.qameta.allure.testng.AllureTestNg"
+        systemProperty "testng.listeners",
+                "io.qameta.allure.testng.AllureTestNg,com.epam.reportportal.testng.ReportPortalTestNGListener"
     }
 
     testLogging {
         events "passed", "skipped", "failed"
     }
 
-    jvmArgs = ["-javaagent:${configurations.agent.singleFile}"]
 }

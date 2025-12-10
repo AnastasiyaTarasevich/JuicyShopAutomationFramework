@@ -16,7 +16,7 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 
-public class HomeUISteps extends BaseUISteps {
+public class HomeUISteps extends BaseUISteps<HomeUISteps> {
 
     public HomeUISteps(SoftAssert softAssert) {
         super(softAssert);

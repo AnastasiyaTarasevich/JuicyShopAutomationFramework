@@ -1,6 +1,6 @@
 package steps.APISteps;
 
-import config.ApiEndpoints;
+import api.ApiEndpoints;
 import dtos.login.LoginRequestDTO;
 import dtos.login.LoginResponseDTO;
 import org.testng.asserts.SoftAssert;

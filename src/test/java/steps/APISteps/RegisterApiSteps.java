@@ -1,6 +1,6 @@
 package steps.APISteps;
 
-import config.ApiEndpoints;
+import api.ApiEndpoints;
 import dtos.registration.RegisterRequestDTO;
 import dtos.registration.RegisterResponseDTO;
 import dtos.registration.SecurityQuestionEnum;

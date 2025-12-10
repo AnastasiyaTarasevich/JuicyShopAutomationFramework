@@ -6,6 +6,7 @@ pipeline {
         BASE_URL = credentials('BASE_URL')
         LOGIN_USER = credentials('LOGIN_USER')
         LOGIN_PASSWORD = credentials('LOGIN_PASSWORD')
+        RP_UUID = credentials('RP_UUID')
     }
 
     stages {
@@ -14,7 +15,23 @@ pipeline {
                 checkout scm
             }
         }
-
+         stage('Report Portal setUp') {
+                    steps {
+                        echo "Setting up ReportPortal integration"
+                        withCredentials([string(credentialsId: 'RP_UUID', variable: 'token')]) {
+                            def filePath = "${WORKSPACE}/src/test/resources/reportportal.properties"
+                            writeFile file: filePath, text: """
+                                rp.endpoint = http://localhost:8090/api/v1
+                                rp.project = juicy_shop_web
+                                rp.uuid = ${token}
+                                rp.launch = ${env.JOB_NAME}-${env.BUILD_NUMBER}
+                                rp.description = Build URL: ${env.BUILD_URL}
+                                rp.enable = true
+                            """.stripIndent()
+                            echo "ReportPortal properties file created at: ${filePath}"
+                        }
+                    }
+                }
         stage('Build & Test') {
             steps {
                 script {

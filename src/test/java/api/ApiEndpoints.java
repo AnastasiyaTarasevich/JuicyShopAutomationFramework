@@ -1,4 +1,4 @@
-package config;
+package api;
 
 public class ApiEndpoints {
     public static final String LOGIN = "/rest/user/login";
