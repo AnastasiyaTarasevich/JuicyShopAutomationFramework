@@ -67,7 +67,7 @@ test {
             includeGroups groups
         }
         systemProperty "testng.listeners",
-                "io.qameta.allure.testng.AllureTestNg,com.epam.reportportal.testng.ReportPortalTestNGListener"
+                "io.qameta.allure.testng.AllureTestNg"
     }
 
     testLogging {
