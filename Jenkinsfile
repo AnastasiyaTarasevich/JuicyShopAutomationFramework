@@ -22,7 +22,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'RP_UUID', variable: 'token')]) {
                         def filePath = "${WORKSPACE}/src/test/resources/reportportal.properties"
                         writeFile file: filePath, text: """
-                            rp.endpoint = http://34.118.90.140:8090/api/v1
+                            rp.endpoint = http://34.118.90.140:8090
                             rp.project = juicy_shop_web
                             rp.uuid = ${token}
                             rp.launch = ${env.JOB_NAME}-${env.BUILD_NUMBER}
