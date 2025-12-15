@@ -48,6 +48,9 @@ public class BasketTests extends BaseUITest {
         basketUISteps
                 .verifyBasketPageVisible()
                 .verifyProductInBasket(product);
+        //TODO delete (added some error to see RP behaviour)
+        homeUISteps
+                .closeWelcomeBanner();
         softAssert.assertAll();
     }
 

@@ -66,7 +66,8 @@ pipeline {
                         def message = """Job '${env.JOB_NAME}' #${env.BUILD_NUMBER} finished.
 Status: ${status}
 Check console: ${env.BUILD_URL}
-Allure report: ${env.BUILD_URL}allure"""
+Allure report: ${env.BUILD_URL}allure
+ReportPortal: ${env.BUILD_URL}"""
 
                         telegramSend(
                             chatId: CHAT_ID,
