@@ -73,5 +73,11 @@ test {
     testLogging {
         events "passed", "skipped", "failed"
     }
+}
+
+tasks.named('processTestResources') {
+    if (!System.getenv("CI")) {
+        exclude("META-INF/services/org.testng.ITestNGListener")
+    }
 
 }
