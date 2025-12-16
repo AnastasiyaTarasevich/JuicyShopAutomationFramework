@@ -75,4 +75,10 @@ public class BasketTests extends BaseUITest {
                 .verifyProductIsNotInBasket(product);
         softAssert.assertAll();
     }
+
+    @Test
+    public void reportPortalLogCheck() {
+        log.info("CI_LOG_CHECK: this log should appear in ReportPortal");
+    }
+
 }
