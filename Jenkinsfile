@@ -16,28 +16,37 @@ pipeline {
             }
         }
 
-        stage('Build & Test') {
-            steps {
-                script {
-                    sh 'chmod +x gradlew'
+        stage('Report Portal setUp') {
+                   steps {
+                       echo "Setting up ReportPortal integration"
+                       script {
+                           withCredentials([string(credentialsId: 'RP_UUID', variable: 'token')]) {
+                               def filePath = "${WORKSPACE}/src/test/resources/reportportal.properties"
+                               writeFile file: filePath, text: """
+                                   rp.endpoint = http://34.118.90.140:8090
+                                   rp.project = juicy_shop_web
+                                   rp.uuid = ${token}
+                                   rp.launch = ${env.JOB_NAME}-${env.BUILD_NUMBER}
+                                   rp.description = Build URL: ${env.BUILD_URL}
+                                   rp.enable = true
+                               """.stripIndent()
+                               echo "ReportPortal properties file created at: ${filePath}"
+                           }
+                       }
+                   }
+               }
+               stage('Build & Test') {
+                   steps {
+                       script {
+                           sh 'chmod +x gradlew'
 
-                    // Собираем системные свойства для ReportPortal
-                    def rpProps = "-Drp.endpoint=http://34.118.90.140:8090 " +
-                                  "-Drp.project=juicy_shop_web " +
-                                  "-Drp.uuid=${env.RP_UUID} " +
-                                  "-Drp.launch=${env.JOB_NAME}-${env.BUILD_NUMBER} " +
-                                  "-Drp.description=Build URL: ${env.BUILD_URL} " +
-                                  "-Drp.enable=true"
-
-                    // Запуск тестов с Allure и ReportPortal
-                    def result = sh(script: "./gradlew clean test ${rpProps} -Dgroups=ui,api", returnStatus: true)
-                    if (result != 0) {
-                        echo "Some tests failed, but continuing pipeline..."
-                    }
-                }
-            }
-        }
-
+                           def result = sh(script: "./gradlew clean test -Dgroups=ui,api", returnStatus: true)
+                           if (result != 0) {
+                               echo "Some tests failed, but continuing pipeline..."
+                           }
+                       }
+                   }
+               }
         stage('Allure Report') {
             steps {
                 echo "Generating Allure report..."

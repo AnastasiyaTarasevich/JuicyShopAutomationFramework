@@ -45,11 +45,14 @@ public abstract class BaseUITest {
     protected final LoginUISteps loginSteps = new LoginUISteps(softAssert);
 
     @BeforeSuite(alwaysRun = true)
-    public void setupAllureReports() {
+    public void setupAllureReportsAndRP() {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
                 .screenshots(true)
                 .savePageSource(true)
         );
+        if ("true".equals(System.getenv("CI"))) {
+            SelenideLogger.addListener("RP", new com.epam.reportportal.selenide.ReportPortalSelenideEventListener());
+        }
     }
 
     @BeforeMethod(alwaysRun = true)
