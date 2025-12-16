@@ -22,6 +22,10 @@ def lombokVersion = "1.18.32"
 def jacksonVersion = "2.20.1"
 def fakerVersion = "1.0.2"
 def webDriverManagerVersion = "6.3.3"
+def rpAgentVersion = "5.5.1"
+def rpLoggerLogbackVersion = "5.4.0"
+def rpLoggerSelenideVersion = "5.3.0"
+def rpLoggerRestAssuredVersion = "5.5.1"
 
 configurations {
     agent {
@@ -48,12 +52,11 @@ dependencies {
     testImplementation "com.github.javafaker:javafaker:$fakerVersion"
     testImplementation "io.github.bonigarcia:webdrivermanager:$webDriverManagerVersion"
     testImplementation "io.qameta.allure:allure-selenide"
-    testImplementation "com.epam.reportportal:agent-java-testng:5.4.0"
-    testImplementation "com.epam.reportportal:logger-java-logback:5.4.0"
-    testImplementation 'com.epam.reportportal:logger-java-selenide:5.4.0'
-    testImplementation 'com.epam.reportportal:logger-java-rest-assured:5.4.0'
-
-
+    testImplementation "com.epam.reportportal:agent-java-testng:$rpAgentVersion"
+    testImplementation "com.epam.reportportal:logger-java-logback:$rpLoggerLogbackVersion"
+    testImplementation "com.epam.reportportal:logger-java-selenide:$rpLoggerSelenideVersion"
+    testImplementation "com.epam.reportportal:logger-java-rest-assured:$rpLoggerRestAssuredVersion"
+    
 }
 
 checkstyle {
