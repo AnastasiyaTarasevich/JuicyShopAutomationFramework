@@ -1,0 +1,9 @@
+<configuration>
+
+    <appender name="RP" class="com.epam.reportportal.logback.appender.ReportPortalAppender"/>
+
+    <root level="INFO">
+        <appender-ref ref="RP"/>
+    </root>
+
+</configuration>
