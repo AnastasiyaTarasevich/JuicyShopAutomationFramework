@@ -5,6 +5,8 @@ import java.util.List;
 import annotations.LoginUser;
 import annotations.RegisterUser;
 import annotations.SeveralProductsToBasket;
+import com.epam.reportportal.listeners.LogLevel;
+import com.epam.reportportal.restassured.ReportPortalRestAssuredLoggingFilter;
 import config.Config;
 import dtos.login.LoginResponseDTO;
 import dtos.products.ProductDTO;
@@ -38,6 +40,10 @@ public class BaseAPITest {
     public void setup(Method method) {
         log.info("Setting up REST-assured...");
         RestAssured.baseURI = Config.getBaseUrl();
+        if ("true".equals(System.getenv("CI"))) {
+            RestAssured.filters(new ReportPortalRestAssuredLoggingFilter(42, LogLevel.INFO));
+        }
+
         createdUser = registerApiSteps.createTestUser();
         if (method.isAnnotationPresent(RegisterUser.class)) {
             registeredUser = registerApiSteps.registerViaApi(createdUser);
