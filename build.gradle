@@ -54,9 +54,9 @@ dependencies {
     testImplementation "io.qameta.allure:allure-selenide"
     testImplementation "com.epam.reportportal:agent-java-testng:$rpAgentVersion"
     testImplementation "com.epam.reportportal:logger-java-logback:$rpLoggerLogbackVersion"
-    testImplementation "com.epam.reportportal:logger-java-selenide:$rpLoggerSelenideVersion"
-    testImplementation "com.epam.reportportal:logger-java-rest-assured:$rpLoggerRestAssuredVersion"
-    
+    testImplementation "com.epam.reportportal:logger-java-selenide:$rpLoggerLogbackVersion"
+    testImplementation "com.epam.reportportal:logger-java-rest-assured:$rpLoggerLogbackVersion"
+
 }
 
 checkstyle {
