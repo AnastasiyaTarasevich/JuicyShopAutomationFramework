@@ -1,8 +1,10 @@
 package steps.base;
 
+import java.util.Date;
 import actions.BrowserActions;
 import actions.ElementActions;
 import com.codeborne.selenide.SelenideElement;
+import com.epam.reportportal.service.ReportPortal;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.slf4j.Logger;
@@ -32,11 +34,11 @@ public abstract class BaseUISteps<SELF extends BaseUISteps<SELF>> {
     protected void performStep(PageElement pageElement, String description, Runnable action) {
         String stepName = pageElement.getPageName() + " — " + description;
         Allure.step(stepName, () -> {
-            log.info("STEP: {}", stepName);
+            ReportPortal.emitLog(stepName, "INFO", new Date());
             try {
                 action.run();
             } catch (Exception e) {
-                log.error("STEP FAILED: {}", stepName, e);
+                ReportPortal.emitLog("STEP FAILED: " + stepName + " — " + e.getMessage(), "ERROR", new Date());
                 throw e;
             }
         });
