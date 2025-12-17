@@ -24,8 +24,6 @@ def fakerVersion = "1.0.2"
 def webDriverManagerVersion = "6.3.3"
 def rpAgentVersion = "5.5.1"
 def rpLoggerLogbackVersion = "5.4.0"
-def rpLoggerSelenideVersion = "5.3.0"
-def rpLoggerRestAssuredVersion = "5.5.1"
 
 configurations {
     agent {
